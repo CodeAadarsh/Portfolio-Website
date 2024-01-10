@@ -1,20 +1,18 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-
-export default function App() {
+import 'react-native-gesture-handler';
+import { StyleSheet, Text, View } from 'react-native'
+import React from 'react'
+import Hellopage from './src/screen/Hellopage'
+import { NavigationContainer } from '@react-navigation/native'
+import Homepage from './src/screen/Homepage';
+const App = () => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+    <NavigationContainer>
+      {/* <Hellopage/> */}
+      <Homepage/>
+    </NavigationContainer>
+  )
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App
+
+const styles = StyleSheet.create({})
