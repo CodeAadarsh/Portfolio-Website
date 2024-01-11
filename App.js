@@ -4,11 +4,12 @@ import React from 'react'
 import Hellopage from './src/screen/Hellopage'
 import { NavigationContainer } from '@react-navigation/native'
 import Homepage from './src/screen/Homepage';
+import HomeNavigation from './src/navigation/HomeNavigation';
 const App = () => {
   return (
     <NavigationContainer>
-      {/* <Hellopage/> */}
-      <Homepage/>
+      <HomeNavigation/>
+      {/* <Homepage/> */}
     </NavigationContainer>
   )
 }

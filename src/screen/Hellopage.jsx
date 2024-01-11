@@ -3,9 +3,11 @@ import React, { useEffect, useState } from "react";
 import { Sizes } from "../constants/Size";
 import { DarkMode, LightMode } from "../constants/colors";
 import { useFonts } from 'expo-font';
+import { useNavigation } from "@react-navigation/native";
 
 const Hellopage = () => {
     const [greetings, setGreetings] = useState("Hello");
+    const navigation = useNavigation();
     const helloLang = [
         "Hello",
         "नमस्ते",
@@ -27,6 +29,7 @@ const Hellopage = () => {
                 setGreetings(helloLang[i])    
             }
             console.log("Hogaya bhai 🙏🥲")
+            navigation.replace('Homepage')
             
     }
 

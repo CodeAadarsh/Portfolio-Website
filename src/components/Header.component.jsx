@@ -17,7 +17,7 @@ const HeaderComponent = ({HandleLightmode}) => {
     textShadowColor: DarkMode.green,textShadowRadius: 15,textShadowOffset: {width: 2, height:1 },
 }}> Aadarsh Verma</Text>
 
-    <View style={{ flexDirection: 'row', justifyContent: 'space-evenly', width: '20%' }}>
+    <View style={{ flexDirection: 'row', justifyContent: 'flex-end', width: '20%' }}>
         <Pressable onPress={()=>setLightMode(!lightMode)} style={{shadowColor: 'black',
     shadowOffset: { width: 0, height: 0 },
     shadowOpacity: 0.5,
@@ -29,9 +29,9 @@ const HeaderComponent = ({HandleLightmode}) => {
             </View>
 
         </Pressable>
-        <Text style={{ color: lightMode ? null : DarkMode.whiteColor, fontWeight: '400', fontSize: 18, fontFamily: 'Salsa' }}>Work</Text>
-        <Text style={{ color: lightMode ? null : DarkMode.whiteColor, fontWeight: '400', fontSize: 18, fontFamily: 'Salsa' }}>Contact</Text>
-        <Text style={{ color: lightMode ? null : DarkMode.whiteColor, fontWeight: '400', fontSize: 18, fontFamily: 'Salsa' }}>Resume</Text>
+        {/* <Text style={{ color: lightMode ? null : DarkMode.whiteColor, fontWeight: '400', fontSize: 18, fontFamily: 'Salsa' }}>Work</Text> */}
+        {/* <Text style={{ color: lightMode ? null : DarkMode.whiteColor, fontWeight: '400', fontSize: 18, fontFamily: 'Salsa' }}>Contact</Text> */}
+        {/* <Text style={{ color: lightMode ? null : DarkMode.whiteColor, fontWeight: '400', fontSize: 18, fontFamily: 'Salsa' }}>Resume</Text> */}
     </View>
 
 </View>
