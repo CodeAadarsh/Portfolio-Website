@@ -6,12 +6,14 @@
 <title>Aadarsh Verma | Portfolio</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script>
 tailwind.config = {
   theme: {
     extend: {
-      fontFamily: { mono:['"JetBrains Mono"','monospace'], sans:['Inter','sans-serif'] },
+      fontFamily: { 
+        sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"Segoe UI"', 'Roboto', 'Helvetica', 'Arial', 'sans-serif'],
+        mono: ['"SF Mono"', 'ui-monospace', 'Menlo', 'Monaco', 'Consolas', '"Courier New"', 'monospace'] 
+      },
       colors: {
         mac:{ red:'#FF5F56', yellow:'#FFBD2E', green:'#27C93F', bg:'rgba(20,20,25,0.4)', border:'rgba(255,255,255,0.1)' },
         warp:{ prompt:'#A855F7', path:'#3B82F6', text:'#E5E7EB', success:'#10B981', highlight:'rgba(255,255,255,0.05)' }
@@ -31,7 +33,7 @@ body{
         url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
     background-size: 100% 100%, 100% 100%, 100% 100%, 150px 150px;
     background-attachment: fixed;
-    overflow:hidden;cursor:none;color:#E5E7EB;font-family:'JetBrains Mono',monospace;
+    overflow:hidden;cursor:none;color:#E5E7EB;
 }
 
 #cursor-dot{width:14px;height:14px;background:#fff;mix-blend-mode:difference;position:fixed;border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .15s,height .15s}
@@ -57,6 +59,13 @@ body{
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2);border-radius:3px}
 
+/* STAGE MANAGER */
+body.stage-manager .window { transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important; }
+body.stage-manager .window.sm-staged { cursor: pointer; opacity: 0.8; resize: none; }
+body.stage-manager .window.sm-staged:hover { opacity: 1; transform: scale(0.42) translateX(30px) !important; }
+body.stage-manager .window.sm-staged .window-header { pointer-events: none; }
+body.stage-manager .window.sm-staged::after { display: none; }
+
 .prompt-line::before{content:'❯';color:#A855F7;margin-right:8px;font-weight:bold}
 .dock-icon{transition:all .2s cubic-bezier(.25,1,.5,1);transform-origin:bottom; box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 10px 20px rgba(0,0,0,0.4);}
 .dock-icon:hover{transform:scale(1.35);margin:0 12px}
@@ -72,7 +81,7 @@ body{
 #spotlight-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(10px);z-index:9990;display:none;align-items:flex-start;justify-content:center;padding-top:18vh}
 #spotlight-overlay.open{display:flex}
 #spotlight-box{width:100%;max-width:580px;overflow:hidden;}
-#spotlight-input{width:100%;background:transparent;border:none;outline:none;color:#fff;font-family:'JetBrains Mono',monospace;font-size:18px;padding:18px 22px}
+#spotlight-input{width:100%;background:transparent;border:none;outline:none;color:#fff;font-size:18px;padding:18px 22px}
 #spotlight-results{border-top:1px solid rgba(255,255,255,0.1);max-height:300px;overflow-y:auto}
 .spot-item{padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:background .15s}
 .spot-item:hover,.spot-item.selected{background:rgba(255,255,255,0.1)}
@@ -89,7 +98,7 @@ body{
 @keyframes spin{to{transform:rotate(360deg)}}
 .blink-cursor{display:inline-block;width:8px;height:15px;background:#A855F7;margin-left:2px;animation:blink 1s step-end infinite;vertical-align:middle}
 @keyframes blink{50%{opacity:0}}
-#easter-input{background:transparent;border:none;outline:none;color:#E5E7EB;font-family:'JetBrains Mono',monospace;font-size:14px;flex:1;caret-color:#fff}
+#easter-input{background:transparent;border:none;outline:none;color:#E5E7EB;font-size:14px;flex:1;caret-color:#fff}
 .easter-line{margin-top:4px;line-height:1.6}
 .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:99998;animation:confetti-fall 3s ease-in forwards}
 @keyframes confetti-fall{0%{opacity:1;transform:translateY(-20px) rotate(0deg)}100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
@@ -103,8 +112,8 @@ body{
 #mobile-ui{display:none;flex-direction:column;height:100vh;background:transparent;}
 .ios-icon {border-radius: 22.5%; box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.3);}
 .mob-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:18px;margin-bottom:14px}
-.mob-card h3{font-family:Inter;font-size:16px;font-weight:600;color:#fff;margin-bottom:6px}
-.mob-card p{font-family:Inter;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5}
+.mob-card h3{font-size:16px;font-weight:600;color:#fff;margin-bottom:6px}
+.mob-card p{font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5}
 .ios-app-content-wrapper { padding: 20px; padding-bottom: 40px; }
 
 /* Menu Hover Effect */
@@ -112,18 +121,31 @@ body{
 .menu-item:hover { background: rgba(255,255,255,0.15); }
 </style>
 </head>
-<body class="w-screen h-screen text-sm antialiased">
+<body class="w-screen h-screen text-sm antialiased font-sans">
 
 <!-- ======== BOOT SCREEN ======== -->
 <div id="boot-screen">
   <div style="text-align:center">
     <div style="font-size:72px;margin-bottom:20px"></div>
-    <div style="font-family:Inter;font-size:26px;font-weight:700;color:#fff;letter-spacing:-0.5px;margin-bottom:6px">Portfolio</div>
-    <div style="font-family:Inter;font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:40px">Sequoia Edition</div>
+    <div style="font-size:26px;font-weight:700;color:#fff;letter-spacing:-0.5px;margin-bottom:6px">Portfolio</div>
+    <div style="font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:40px">Sequoia Edition</div>
     <div style="width:220px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin:0 auto">
       <div id="boot-bar-fill" style="height:100%;width:0%;background:#fff;border-radius:2px"></div>
     </div>
-    <div id="boot-status" style="font-family:Inter;font-size:11px;color:rgba(255,255,255,0.5);margin-top:14px;min-height:16px">Initializing environment...</div>
+    <div id="boot-status" style="font-size:11px;color:rgba(255,255,255,0.5);margin-top:14px;min-height:16px">Initializing environment...</div>
+  </div>
+</div>
+
+<!-- ======== LOCK SCREEN ======== -->
+<div id="lock-screen" class="fixed inset-0 z-[10000] hidden flex flex-col items-center justify-center bg-black/40 backdrop-blur-2xl transition-opacity duration-500 opacity-0">
+  <img id="lock-avatar" src="https://ui-avatars.com/api/?name=Aadarsh+Verma&background=6D28D9&color=fff&size=128" class="w-32 h-32 rounded-full mb-4 shadow-2xl border-2 border-white/20">
+  <h2 class="text-2xl font-semibold text-white mb-6 tracking-tight">Aadarsh Verma</h2>
+  <div class="flex flex-col items-center">
+      <div class="flex items-center bg-white/10 rounded-full px-4 py-2 border border-white/20 backdrop-blur-md w-64 focus-within:bg-white/20 transition-all">
+          <input type="password" id="lock-pass" placeholder="Enter Password" class="bg-transparent text-white text-sm outline-none placeholder-white/50 w-full text-center" onkeydown="if(event.key==='Enter') unlockScreen()">
+          <i class="fa-solid fa-arrow-right text-white/50 text-sm ml-2 cursor-pointer hover:text-white transition" onclick="unlockScreen()"></i>
+      </div>
+      <p class="text-white/50 text-xs mt-4">Touch ID or Enter Password (any key works)</p>
   </div>
 </div>
 
@@ -131,9 +153,20 @@ body{
 <div id="cursor-dot"></div>
 
 <!-- ======== TOP MENU BAR ======== -->
-<nav id="top-menu" class="glass-panel fixed top-0 left-0 w-full h-7 flex justify-between items-center px-4 text-[13px] font-sans font-medium text-white z-[1000] border-t-0 border-l-0 border-r-0 rounded-none">
-  <div class="flex items-center gap-1">
-    <i class="fa-brands fa-apple text-[15px] menu-item interactive cursor-pointer"></i>
+<nav id="top-menu" class="glass-panel fixed top-0 left-0 w-full h-7 flex justify-between items-center px-4 text-[13px] font-medium text-white z-[1000] border-t-0 border-l-0 border-r-0 rounded-none">
+  <div class="flex items-center gap-1 relative">
+    <div class="relative group">
+        <i class="fa-brands fa-apple text-[15px] menu-item interactive cursor-pointer" id="apple-icon"></i>
+        <!-- Dropdown Menu -->
+        <div id="apple-dropdown" class="absolute top-[120%] left-0 w-56 glass-panel border border-white/10 rounded-lg shadow-2xl py-1 hidden flex-col z-[5000]">
+            <div class="px-3 py-1.5 hover:bg-blue-500 hover:text-white cursor-pointer rounded mx-1 text-[13px] transition-colors" onclick="openWindowById('about'); document.getElementById('apple-dropdown').classList.add('hidden');">About Aadarsh Verma</div>
+            <div class="h-px bg-white/10 my-1 mx-2"></div>
+            <div class="px-3 py-1.5 hover:bg-blue-500 hover:text-white cursor-pointer rounded mx-1 text-[13px] transition-colors" onclick="document.getElementById('cc-btn').click(); document.getElementById('apple-dropdown').classList.add('hidden');">System Settings...</div>
+            <div class="px-3 py-1.5 hover:bg-blue-500 hover:text-white cursor-pointer rounded mx-1 text-[13px] transition-colors text-white/50" onclick="document.getElementById('apple-dropdown').classList.add('hidden');">App Store...</div>
+            <div class="h-px bg-white/10 my-1 mx-2"></div>
+            <div class="px-3 py-1.5 hover:bg-blue-500 hover:text-white cursor-pointer rounded mx-1 text-[13px] transition-colors" onclick="lockScreen()">Lock Screen...</div>
+        </div>
+    </div>
     <span class="font-bold menu-item interactive cursor-pointer">Portfolio</span>
     <span class="hidden sm:inline menu-item interactive cursor-pointer">File</span>
     <span class="hidden sm:inline menu-item interactive cursor-pointer">Edit</span>
@@ -171,9 +204,13 @@ body{
             <i class="fa-solid fa-wand-magic-sparkles text-yellow-400 text-lg"></i>
             <span class="text-xs font-sans text-white font-medium" id="cc-mode-text">Toggle UI Mode</span>
          </button>
-         <button onclick="cascadeWindows()" class="bg-white/10 hover:bg-white/20 border border-white/5 transition rounded-xl p-3 flex flex-col items-center justify-center gap-2 interactive text-center">
-            <i class="fa-solid fa-layer-group text-purple-400 text-lg"></i>
-            <span class="text-xs font-sans text-white font-medium">Organize Mode</span>
+         <button onclick="toggleStageManager()" class="bg-white/10 hover:bg-white/20 border border-white/5 transition rounded-xl p-3 flex flex-col items-center justify-center gap-2 interactive text-center">
+            <i class="fa-solid fa-window-restore text-blue-400 text-lg"></i>
+            <span class="text-xs font-sans text-white font-medium" id="sm-mode-text">Stage Manager</span>
+         </button>
+         <button onclick="changeWallpaper()" class="bg-white/10 hover:bg-white/20 border border-white/5 transition rounded-xl p-3 flex flex-col items-center justify-center gap-2 interactive text-center col-span-2">
+            <i class="fa-solid fa-image text-green-400 text-lg"></i>
+            <span class="text-xs font-sans text-white font-medium">Change Wallpaper</span>
          </button>
     </div>
 </div>
@@ -203,7 +240,7 @@ body{
       <input id="spotlight-input" placeholder="Search portfolio..." autocomplete="off" spellcheck="false">
     </div>
     <div id="spotlight-results"></div>
-    <div style="padding:8px 20px;font-size:11px;color:rgba(255,255,255,0.4);font-family:Inter;border-top:1px solid rgba(255,255,255,0.1)">
+    <div style="padding:8px 20px;font-size:11px;color:rgba(255,255,255,0.4);border-top:1px solid rgba(255,255,255,0.1)">
       ↑↓ navigate &nbsp;·&nbsp; ↵ open &nbsp;·&nbsp; esc close
     </div>
   </div>
@@ -219,7 +256,7 @@ body{
 <main id="desktop" class="relative w-full h-full pt-7">
 
   <!-- ===== ABOUT ===== -->
-  <div id="win-about" class="window glass-panel" style="width:580px;height:430px;left:3%;top:12%;z-index:10" data-id="about" data-title="About Me" data-icon="fa-user" data-color="purple">
+  <div id="win-about" class="window glass-panel font-mono" style="width:580px;height:430px;left:3%;top:12%;z-index:10" data-id="about" data-title="About Me">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
         <button class="w-3 h-3 rounded-full bg-mac-red hover:brightness-110 transition close-btn interactive border border-black/20"></button>
@@ -231,17 +268,16 @@ body{
       </div>
       <div class="w-10"></div>
     </div>
-    <div class="flex-1 bg-mac-bg">
+    <div class="flex-1 bg-mac-bg font-mono">
       <!-- TERMINAL VIEW -->
       <div class="view-content view-terminal p-5 text-warp-text space-y-5">
         <div class="term-block">
           <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~</span></div>
-          <div class="prompt-line term-cmd" data-text="cat profile.json"></div>
+          <div class="prompt-line term-cmd font-mono" data-text="cat profile.json"></div>
           <div class="term-output hidden-out mt-2">
             <div class="bg-warp-highlight p-4 rounded-lg border border-mac-border">
-<pre class="text-sm leading-relaxed"><span class="text-purple-400">{</span>
+<pre class="text-sm leading-relaxed font-mono"><span class="text-purple-400">{</span>
   <span class="text-blue-400">"name"</span>: <span class="text-green-400">"Aadarsh Verma"</span>,
-  <span class="text-blue-400">"age"</span>: <span class="text-yellow-300">22</span>,
   <span class="text-blue-400">"role"</span>: <span class="text-green-400">"Software Engineer @ SAP Labs"</span>,
   <span class="text-blue-400">"location"</span>: <span class="text-green-400">"Bengaluru, India"</span>,
   <span class="text-blue-400">"focus"</span>: <span class="text-green-400">"AI Systems, Observability, K8s"</span>,
@@ -253,9 +289,9 @@ body{
         </div>
         <div class="term-block">
           <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~</span></div>
-          <div class="prompt-line term-cmd" data-text="whoami --verbose"></div>
+          <div class="prompt-line term-cmd font-mono" data-text="whoami --verbose"></div>
           <div class="term-output hidden-out mt-2">
-            <p class="text-gray-300 leading-relaxed font-sans text-sm">
+            <p class="text-gray-300 leading-relaxed font-mono text-sm">
               Building resilient AI-powered systems at scale. I specialize in the intersection of platform engineering and observability — designing distributed microservices and architecting high-availability infrastructure. Target: SRE / Senior Infrastructure + AI Engineering roles at Grafana Labs, Datadog, Harness, or Microsoft.
             </p>
           </div>
@@ -272,7 +308,7 @@ body{
       </div>
       <!-- UI VIEW -->
       <div class="view-content view-ui hidden-view p-8 font-sans h-full flex flex-col items-center justify-center text-center">
-        <img src="https://ui-avatars.com/api/?name=Aadarsh+Verma&background=6D28D9&color=fff&size=128&bold=true" class="w-24 h-24 rounded-full border-4 border-white/10 mb-4 shadow-2xl interactive" alt="Aadarsh">
+        <img id="gh-avatar" src="https://ui-avatars.com/api/?name=Aadarsh+Verma&background=6D28D9&color=fff&size=128&bold=true" class="w-24 h-24 rounded-full border-4 border-white/10 mb-4 shadow-2xl interactive" alt="Aadarsh">
         <h2 class="text-2xl font-bold text-white mb-1">Aadarsh Verma</h2>
         <p class="text-purple-300 font-medium mb-1">Software Engineer · SAP Labs AI Core</p>
         <p class="text-white/50 text-xs mb-4">Bengaluru, India · Open to SRE / SDE-2 roles</p>
@@ -286,7 +322,7 @@ body{
   </div>
 
   <!-- ===== EXPERIENCE ===== -->
-  <div id="win-experience" class="window glass-panel" style="width:660px;height:460px;left:16%;top:18%;z-index:20" data-id="experience" data-title="Experience" data-icon="fa-briefcase" data-color="blue">
+  <div id="win-experience" class="window glass-panel" style="width:660px;height:460px;left:16%;top:18%;z-index:20" data-id="experience" data-title="Experience">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
         <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive border border-black/20"></button>
@@ -300,15 +336,15 @@ body{
       <div class="view-content view-terminal p-5 text-warp-text space-y-5">
         <div class="term-block">
           <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~/work</span></div>
-          <div class="prompt-line term-cmd" data-text="git log --pretty=format:'%s' --all"></div>
+          <div class="prompt-line term-cmd font-mono" data-text="git log --pretty=format:'%s' --all"></div>
           <div class="term-output hidden-out mt-3 space-y-5">
             <div class="border-l-2 border-purple-500/60 pl-4 relative">
               <div class="absolute -left-[5px] top-1 w-2 h-2 bg-purple-400 rounded-full shadow-[0_0_8px_#a855f7]"></div>
               <div class="flex items-start justify-between">
                 <h3 class="text-white font-bold font-sans">Software Engineer<span class="text-white/60 text-sm font-mono font-normal ml-2">@ SAP AI Core Team, Business AI</span></h3>
-                <span class="text-xs text-white/50 ml-4 shrink-0">June 2025 – Present</span>
+                <span class="text-xs text-white/50 ml-4 shrink-0 font-sans">June 2025 – Present</span>
               </div>
-              <ul class="mt-2 space-y-1 text-gray-300 text-sm font-sans">
+              <ul class="mt-2 space-y-1 text-gray-300 text-sm font-mono">
                 <li><span class="text-warp-success mr-2">→</span>Built and productionized AI-powered Log Intelligence system using LGTM stack, K8s, Docker, and LLMs.</li>
                 <li><span class="text-warp-success mr-2">→</span>Processes 100GB+ logs daily across 50+ AI Launchpad deployments.</li>
                 <li><span class="text-warp-success mr-2">→</span>Reduced median incident triage time by 38% and P95 debug time by 45% for 500+ devs and 100+ enterprise customers.</li>
@@ -318,11 +354,11 @@ body{
             <div class="border-l-2 border-blue-500/60 pl-4 relative">
               <div class="absolute -left-[5px] top-1 w-2 h-2 bg-blue-400 rounded-full shadow-[0_0_8px_#3b82f6]"></div>
               <div class="flex items-start justify-between">
-                <h3 class="text-white font-bold font-sans">Software Engineer<span class="text-white/60 text-sm font-mono font-normal ml-2">@ SAP Industry Product Engineering - Automotive</span></h3>
-                <span class="text-xs text-white/50 ml-4 shrink-0">Sep 2024 – May 2025</span>
+                <h3 class="text-white font-bold font-sans">Software Engineer<span class="text-white/60 text-sm font-mono font-normal ml-2">@ SAP Industry Product Engineering</span></h3>
+                <span class="text-xs text-white/50 ml-4 shrink-0 font-sans">Sep 2024 – May 2025</span>
               </div>
-              <ul class="mt-2 space-y-1 text-gray-300 text-sm font-sans">
-                <li><span class="text-blue-400 mr-2">→</span>Enhanced VMS Extension Lead: Designed cloud-native extensions using CAP, SAP Cloud SDK, and UI5-enabled real-time data replication for SAP BTP Destination services across 50+ customer landscapes.</li>
+              <ul class="mt-2 space-y-1 text-gray-300 text-sm font-mono">
+                <li><span class="text-blue-400 mr-2">→</span>Enhanced VMS Extension Lead: Designed cloud-native extensions using CAP, SAP Cloud SDK, and UI5-enabled real-time data replication.</li>
                 <li><span class="text-blue-400 mr-2">→</span>Built scalable VMS POC handling 10,000+ daily events with 99.99% reliability, accelerating cloud migration for automotive clients by 4-6 weeks.</li>
               </ul>
             </div>
@@ -330,11 +366,10 @@ body{
               <div class="absolute -left-[5px] top-1 w-2 h-2 bg-green-400 rounded-full shadow-[0_0_8px_#10b981]"></div>
               <div class="flex items-start justify-between">
                 <h3 class="text-white font-bold font-sans">React Native Developer Intern<span class="text-white/60 text-sm font-mono font-normal ml-2">@ Okie Dokie Solutions LLP</span></h3>
-                <span class="text-xs text-white/50 ml-4 shrink-0">May 2023 – Nov 2023</span>
+                <span class="text-xs text-white/50 ml-4 shrink-0 font-sans">May 2023 – Nov 2023</span>
               </div>
-              <ul class="mt-2 space-y-1 text-gray-300 text-sm font-sans">
+              <ul class="mt-2 space-y-1 text-gray-300 text-sm font-mono">
                 <li><span class="text-green-400 mr-2">→</span>Sole frontend developer for magazine e-commerce portal using React Native Web - shipped in 3 months, now serving 15,000+ monthly active users.</li>
-                <li><span class="text-green-400 mr-2">→</span>Added group management and CRUD features to live Play Store/App Store app (10,000+ downloads), reducing admin operations time by 60%.</li>
               </ul>
             </div>
           </div>
@@ -357,20 +392,13 @@ body{
             </div>
             <p class="text-white/70 text-sm leading-relaxed">Enhanced VMS Extension Lead: Designed cloud-native extensions using CAP, SAP Cloud SDK, and UI5-enabled real-time data replication across 50+ landscapes. Built POC handling 10,000+ daily events.</p>
           </div>
-          <div class="bg-white/5 p-5 rounded-xl border border-white/10 hover:border-green-500/50 transition shadow-lg">
-            <div class="flex justify-between items-start mb-2">
-              <div><h3 class="text-base font-bold text-white">React Native Developer Intern</h3><p class="text-green-300 text-sm">Okie Dokie Solutions LLP</p></div>
-              <span class="bg-green-500/20 text-green-200 px-3 py-1 rounded-full text-xs border border-green-500/30">May 2023 – Nov 2023</span>
-            </div>
-            <p class="text-white/70 text-sm leading-relaxed">Built magazine e-commerce portal serving 15,000+ monthly active users. Reduced admin operations time by 60%.</p>
-          </div>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ===== PROJECTS ===== -->
-  <div id="win-projects" class="window glass-panel" style="width:630px;height:510px;left:30%;top:6%;z-index:30" data-id="projects" data-title="Projects" data-icon="fa-code" data-color="green">
+  <div id="win-projects" class="window glass-panel" style="width:630px;height:510px;left:30%;top:6%;z-index:30" data-id="projects" data-title="Projects">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
         <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive border border-black/20"></button>
@@ -387,7 +415,7 @@ body{
       <div class="view-content view-terminal p-5 text-warp-text space-y-5">
         <div class="term-block">
           <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~/projects</span></div>
-          <div class="prompt-line term-cmd" data-text="ls -la --tree --github"></div>
+          <div class="prompt-line term-cmd font-mono" data-text="ls -la --tree --github"></div>
           <div class="term-output hidden-out mt-3">
             <div id="gh-term-list" class="font-mono text-sm space-y-3 text-gray-300">
               <div class="hover:bg-white/5 p-2 rounded transition interactive"><div class="text-warp-path font-bold mb-1"><i class="fa-regular fa-folder-open mr-1"></i> ai_log_analyzer/</div><div class="pl-5 border-l border-white/10 ml-1 py-1 text-white/70">Engineered AI-powered log analysis platform using Node.js, LGTM stack, and LLM APIs to parse 1GB+ logs and detect anomalies across K8s pods - deployed on self-managed K8s cluster, reducing debug time by 40% in production simulations.</div></div>
@@ -421,7 +449,7 @@ body{
   </div>
 
   <!-- ===== SKILLS ===== -->
-  <div id="win-skills" class="window glass-panel" style="width:460px;height:370px;left:56%;top:12%;z-index:40" data-id="skills" data-title="Skills" data-icon="fa-bolt" data-color="yellow">
+  <div id="win-skills" class="window glass-panel" style="width:460px;height:370px;left:56%;top:12%;z-index:40" data-id="skills" data-title="Skills">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
         <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive border border-black/20"></button>
@@ -435,7 +463,7 @@ body{
       <div class="view-content view-terminal p-5 text-warp-text space-y-4">
         <div class="term-block">
           <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~</span></div>
-          <div class="prompt-line term-cmd" data-text="neofetch --skills-only"></div>
+          <div class="prompt-line term-cmd font-mono" data-text="neofetch --skills-only"></div>
           <div class="term-output hidden-out mt-3 font-mono text-sm space-y-2">
             <div class="flex"><span class="text-purple-400 w-32 shrink-0">Languages</span><span class="text-gray-300">Java · Python · C++ · JavaScript</span></div>
             <div class="flex"><span class="text-blue-400 w-32 shrink-0">Backend</span><span class="text-gray-300">Node.js · Express.js · Spring Boot · CAP</span></div>
@@ -472,7 +500,7 @@ body{
   </div>
 
   <!-- ===== EDUCATION ===== -->
-  <div id="win-education" class="window glass-panel" style="width:550px;height:360px;left:3%;top:58%;z-index:50" data-id="education" data-title="Education" data-icon="fa-graduation-cap" data-color="teal">
+  <div id="win-education" class="window glass-panel" style="width:550px;height:360px;left:3%;top:58%;z-index:50" data-id="education" data-title="Education">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
         <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive border border-black/20"></button>
@@ -486,24 +514,24 @@ body{
       <div class="view-content view-terminal p-5 text-warp-text space-y-5">
         <div class="term-block">
           <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~/education</span></div>
-          <div class="prompt-line term-cmd" data-text="cat degrees.md"></div>
+          <div class="prompt-line term-cmd font-mono" data-text="cat degrees.md"></div>
           <div class="term-output hidden-out mt-3 space-y-4">
             <div class="bg-warp-highlight p-4 rounded-lg border border-mac-border">
               <div class="flex items-start justify-between mb-1">
-                <span class="text-teal-400 font-bold text-sm">▸ M.Tech Software Engineering</span>
-                <span class="text-gray-500 text-xs">August 2024 – Present</span>
+                <span class="text-teal-400 font-bold font-mono text-sm">▸ M.Tech Software Engineering</span>
+                <span class="text-gray-500 text-xs font-mono">August 2024 – Present</span>
               </div>
               <div class="text-white text-sm font-sans">Birla Institute of Technology, Pilani</div>
               <div class="text-gray-400 text-xs font-sans mt-1">Status: In progress</div>
             </div>
             <div class="bg-warp-highlight p-4 rounded-lg border border-mac-border">
               <div class="flex items-start justify-between mb-1">
-                <span class="text-blue-400 font-bold text-sm">▸ BCA, Computer Science</span>
-                <span class="text-gray-500 text-xs">July 2021 – July 2024</span>
+                <span class="text-blue-400 font-bold font-mono text-sm">▸ BCA, Computer Science</span>
+                <span class="text-gray-500 text-xs font-mono">July 2021 – July 2024</span>
               </div>
               <div class="text-white text-sm font-sans">Amity University Jaipur</div>
               <div class="text-gray-400 text-xs font-sans mt-1">Coursework: Operating Systems, Object Oriented Programming, Relational Database Management Systems, Computer Networks, Data Structures and Algorithms</div>
-              <div class="text-warp-success mt-1">> CGPA: 8.47 <i class="fa-solid fa-check ml-1"></i></div>
+              <div class="text-warp-success mt-1 font-mono">> CGPA: 8.47 <i class="fa-solid fa-check ml-1"></i></div>
             </div>
           </div>
         </div>
@@ -531,7 +559,7 @@ body{
   </div>
 
   <!-- ===== CONTACT ===== -->
-  <div id="win-contact" class="window glass-panel" style="width:510px;height:370px;left:50%;top:52%;z-index:60" data-id="contact" data-title="Contact" data-icon="fa-envelope" data-color="pink">
+  <div id="win-contact" class="window glass-panel" style="width:510px;height:390px;left:50%;top:52%;z-index:60" data-id="contact" data-title="Contact">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
         <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive border border-black/20"></button>
@@ -545,64 +573,63 @@ body{
       <div class="view-content view-terminal p-5 text-warp-text space-y-5">
         <div class="term-block">
           <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~</span></div>
-          <div class="prompt-line term-cmd" data-text="./send_mail.sh --interactive"></div>
-          <div class="term-output hidden-out mt-3 space-y-3">
-            <div class="text-green-400 text-xs font-sans">// Available contact channels — click to connect</div>
+          <div class="prompt-line term-cmd font-mono" data-text="./send_mail.sh --interactive"></div>
+          <div class="term-output hidden-out mt-3 space-y-3 font-mono">
+            <div class="text-green-400 text-xs font-mono">// Available contact channels — click to connect</div>
             <a href="mailto:aadarsh24lv@gmail.com" class="interactive flex items-center gap-3 hover:bg-white/5 p-2 rounded transition group">
               <span class="text-pink-400 w-6"><i class="fa-solid fa-envelope"></i></span>
               <span class="text-gray-300 group-hover:text-white">aadarsh24lv@gmail.com</span>
-              <span class="text-gray-500 text-xs ml-auto">email</span>
+              <span class="text-gray-500 text-xs ml-auto font-sans">email</span>
             </a>
             <a href="tel:+919520457941" class="interactive flex items-center gap-3 hover:bg-white/5 p-2 rounded transition group">
               <span class="text-green-400 w-6"><i class="fa-solid fa-phone"></i></span>
               <span class="text-gray-300 group-hover:text-white">+91 9520457941</span>
-              <span class="text-gray-500 text-xs ml-auto">phone</span>
+              <span class="text-gray-500 text-xs ml-auto font-sans">phone</span>
             </a>
             <a href="https://github.com/CodeAadarsh" target="_blank" class="interactive flex items-center gap-3 hover:bg-white/5 p-2 rounded transition group">
               <span class="text-gray-300 w-6"><i class="fa-brands fa-github"></i></span>
               <span class="text-gray-300 group-hover:text-white">github.com/CodeAadarsh</span>
-              <span class="text-gray-500 text-xs ml-auto">code</span>
+              <span class="text-gray-500 text-xs ml-auto font-sans">code</span>
             </a>
             <a href="https://linkedin.com/in/Ivadarsh" target="_blank" class="interactive flex items-center gap-3 hover:bg-white/5 p-2 rounded transition group">
               <span class="text-blue-400 w-6"><i class="fa-brands fa-linkedin"></i></span>
               <span class="text-gray-300 group-hover:text-white">linkedin.com/in/Ivadarsh</span>
-              <span class="text-gray-500 text-xs ml-auto">network</span>
+              <span class="text-gray-500 text-xs ml-auto font-sans">network</span>
             </a>
-            <a href="https://twitter.com/Aadarshcodes" target="_blank" class="interactive flex items-center gap-3 hover:bg-white/5 p-2 rounded transition group">
-              <span class="text-blue-300 w-6"><i class="fa-brands fa-twitter"></i></span>
-              <span class="text-gray-300 group-hover:text-white">twitter.com/Aadarshcodes</span>
-              <span class="text-gray-500 text-xs ml-auto">social</span>
+            <a href="https://leetcode.com/u/aadarsh24lv/" target="_blank" class="interactive flex items-center gap-3 hover:bg-white/5 p-2 rounded transition group">
+              <span class="text-orange-400 w-6"><i class="fa-solid fa-code"></i></span>
+              <span class="text-gray-300 group-hover:text-white">leetcode.com/u/aadarsh24lv</span>
+              <span class="text-gray-500 text-xs ml-auto font-sans">dsa</span>
             </a>
-            <div class="flex items-center gap-3 p-2">
-              <span class="text-yellow-400 w-6"><i class="fa-solid fa-location-dot"></i></span>
-              <span class="text-gray-400">Bengaluru, Karnataka, India</span>
-              <span class="text-gray-500 text-xs ml-auto">location</span>
+            <div class="mt-2 pt-2 border-t border-white/10 text-xs text-white/50 font-sans">
+              Open to: SRE · SDE-2 · Senior Infra + AI Engineering roles
             </div>
           </div>
         </div>
       </div>
       <div class="view-content view-ui hidden-view p-6 font-sans">
         <h2 class="text-xl font-bold text-white mb-2">Get In Touch</h2>
-        <p class="text-white/60 text-sm mb-5">Open to SRE / SDE-2 / Senior infrastructure + AI engineering roles. Let's connect.</p>
-        <div class="space-y-3">
-          <a href="mailto:aadarsh24lv@gmail.com" class="interactive flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-3 rounded-xl transition shadow-lg">
-            <div class="w-9 h-9 bg-pink-500/20 border border-pink-500/30 rounded-lg flex items-center justify-center"><i class="fa-solid fa-envelope text-pink-300 text-sm"></i></div>
-            <div><div class="text-white text-sm font-semibold">Email</div><div class="text-white/60 text-xs">aadarsh24lv@gmail.com</div></div>
-            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-white/40 text-xs"></i>
+        <p class="text-white/60 text-sm mb-4">Open to SRE / SDE-2 / Senior infrastructure + AI engineering roles. Let's connect.</p>
+        <div class="grid grid-cols-2 gap-3">
+          <a href="mailto:aadarsh24lv@gmail.com" class="interactive flex flex-col items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 p-3 rounded-xl transition shadow-lg text-center">
+            <div class="w-8 h-8 bg-pink-500/20 border border-pink-500/30 rounded-lg flex items-center justify-center"><i class="fa-solid fa-envelope text-pink-300 text-sm"></i></div>
+            <div class="text-white text-xs font-semibold">Email</div>
           </a>
-          <a href="tel:+919520457941" class="interactive flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-3 rounded-xl transition shadow-lg">
-            <div class="w-9 h-9 bg-green-500/20 border border-green-500/30 rounded-lg flex items-center justify-center"><i class="fa-solid fa-phone text-green-300 text-sm"></i></div>
-            <div><div class="text-white text-sm font-semibold">Phone</div><div class="text-white/60 text-xs">+91 9520457941</div></div>
-            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-white/40 text-xs"></i>
+          <a href="tel:+919520457941" class="interactive flex flex-col items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 p-3 rounded-xl transition shadow-lg text-center">
+            <div class="w-8 h-8 bg-green-500/20 border border-green-500/30 rounded-lg flex items-center justify-center"><i class="fa-solid fa-phone text-green-300 text-sm"></i></div>
+            <div class="text-white text-xs font-semibold">Phone</div>
           </a>
-          <a href="https://github.com/CodeAadarsh" target="_blank" class="interactive flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-3 rounded-xl transition shadow-lg">
-            <div class="w-9 h-9 bg-gray-500/30 border border-gray-500/40 rounded-lg flex items-center justify-center"><i class="fa-brands fa-github text-white text-sm"></i></div>
-            <div><div class="text-white text-sm font-semibold">GitHub</div><div class="text-white/60 text-xs">CodeAadarsh</div></div>
-            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-white/40 text-xs"></i>
+          <a href="https://github.com/CodeAadarsh" target="_blank" class="interactive flex flex-col items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 p-3 rounded-xl transition shadow-lg text-center">
+            <div class="w-8 h-8 bg-gray-500/30 border border-gray-500/40 rounded-lg flex items-center justify-center"><i class="fa-brands fa-github text-white text-sm"></i></div>
+            <div class="text-white text-xs font-semibold">GitHub</div>
           </a>
-          <a href="https://linkedin.com/in/Ivadarsh" target="_blank" class="interactive flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-3 rounded-xl transition shadow-lg">
-            <div class="w-9 h-9 bg-blue-500/20 border border-blue-500/30 rounded-lg flex items-center justify-center"><i class="fa-brands fa-linkedin text-blue-300 text-sm"></i></div>
-            <div><div class="text-white text-sm font-semibold">LinkedIn</div><div class="text-white/60 text-xs">Ivadarsh</div></div>
+          <a href="https://linkedin.com/in/Ivadarsh" target="_blank" class="interactive flex flex-col items-center gap-2 bg-white/5 hover:bg-white/10 border border-white/10 p-3 rounded-xl transition shadow-lg text-center">
+            <div class="w-8 h-8 bg-blue-500/20 border border-blue-500/30 rounded-lg flex items-center justify-center"><i class="fa-brands fa-linkedin text-blue-300 text-sm"></i></div>
+            <div class="text-white text-xs font-semibold">LinkedIn</div>
+          </a>
+          <a href="https://leetcode.com/u/aadarsh24lv/" target="_blank" class="col-span-2 interactive flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-3 rounded-xl transition shadow-lg">
+            <div class="w-8 h-8 bg-orange-500/20 border border-orange-500/30 rounded-lg flex items-center justify-center shrink-0"><i class="fa-solid fa-code text-orange-300 text-sm"></i></div>
+            <div><div class="text-white text-sm font-semibold">LeetCode</div><div class="text-white/60 text-xs">aadarsh24lv</div></div>
             <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-white/40 text-xs"></i>
           </a>
         </div>
@@ -613,35 +640,28 @@ body{
   <!-- ======== DOCK ======== -->
   <div class="glass-panel fixed bottom-4 left-1/2 -translate-x-1/2 px-3 py-2 rounded-2xl shadow-2xl z-[1000] flex items-end gap-2 h-[70px]">
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">About Me <span class="text-white/50">⌘1</span></div>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg font-sans">About Me <span class="text-white/50 ml-1">⌘1</span></div>
       <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white text-xl" data-target="about"><i class="fa-solid fa-user"></i></button>
     </div>
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Experience <span class="text-white/50">⌘2</span></div>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg font-sans">Experience <span class="text-white/50 ml-1">⌘2</span></div>
       <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white text-xl" data-target="experience"><i class="fa-solid fa-briefcase"></i></button>
     </div>
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Projects <span class="text-white/50">⌘3</span></div>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg font-sans">Projects <span class="text-white/50 ml-1">⌘3</span></div>
       <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white text-xl" data-target="projects"><i class="fa-solid fa-code"></i></button>
     </div>
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Skills <span class="text-white/50">⌘4</span></div>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg font-sans">Skills <span class="text-white/50 ml-1">⌘4</span></div>
       <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center text-white text-xl" data-target="skills"><i class="fa-solid fa-bolt"></i></button>
     </div>
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Education <span class="text-white/50">⌘5</span></div>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg font-sans">Education <span class="text-white/50 ml-1">⌘5</span></div>
       <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center text-white text-xl" data-target="education"><i class="fa-solid fa-graduation-cap"></i></button>
     </div>
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Contact <span class="text-white/50">⌘6</span></div>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg font-sans">Contact <span class="text-white/50 ml-1">⌘6</span></div>
       <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white text-xl" data-target="contact"><i class="fa-solid fa-envelope"></i></button>
-    </div>
-    <div class="w-px h-10 bg-white/20 self-center mx-1"></div>
-    <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Toggle <span class="text-white/50">⌘T</span></div>
-      <button id="dock-ui-toggle" class="dock-icon relative interactive w-12 h-12 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center text-white text-xl shadow-lg">
-        <i class="fa-solid fa-toggle-on"></i>
-      </button>
     </div>
   </div>
 </main>
@@ -699,7 +719,7 @@ body{
   <!-- Hidden Content Store for Mobile -->
   <div id="mob-content-store" class="hidden">
     <div id="mob-about" class="mob-card" style="text-align:center;padding:24px">
-      <img src="https://ui-avatars.com/api/?name=Aadarsh+Verma&background=6D28D9&color=fff&size=96&bold=true" style="width:72px;height:72px;border-radius:50%;border:3px solid #2E3036;margin:0 auto 12px">
+      <img id="gh-avatar-mob" src="https://ui-avatars.com/api/?name=Aadarsh+Verma&background=6D28D9&color=fff&size=96&bold=true" style="width:72px;height:72px;border-radius:50%;border:3px solid #2E3036;margin:0 auto 12px">
       <div style="font-family:Inter;font-size:18px;font-weight:700;color:#fff">Aadarsh Verma</div>
       <div style="font-family:Inter;font-size:13px;color:#A855F7;margin:4px 0">Software Engineer · SAP Labs AI Core</div>
       <div style="font-family:Inter;font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:16px">Bengaluru, India</div>
@@ -741,6 +761,7 @@ body{
           <a href="tel:+919520457941" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);color:#34d399;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-solid fa-phone mr-2"></i>+91 9520457941</a>
           <a href="https://github.com/CodeAadarsh" target="_blank" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#e5e7eb;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-brands fa-github mr-2"></i>github.com/CodeAadarsh</a>
           <a href="https://linkedin.com/in/Ivadarsh" target="_blank" style="background:rgba(29,78,216,0.2);border:1px solid rgba(29,78,216,0.3);color:#60a5fa;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-brands fa-linkedin mr-2"></i>linkedin.com/in/Ivadarsh</a>
+          <a href="https://leetcode.com/u/aadarsh24lv/" target="_blank" style="background:rgba(249,115,22,0.1);border:1px solid rgba(249,115,22,0.2);color:#fdba74;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-solid fa-code mr-2"></i>leetcode.com/u/aadarsh24lv</a>
         </div>
       </div>
     </div>
@@ -751,7 +772,38 @@ body{
 const sleep = ms => new Promise(r => setTimeout(r, ms));
 let isUIMode = false;
 let highestZ = 60;
+let isStageManager = false;
 const animatedWindows = new Set();
+
+const wallpapers = [
+  // 0: Default Sequoia Liquid (already in CSS)
+  `radial-gradient(circle at 15% 50%, rgba(124, 58, 237, 0.4), transparent 45%), radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.4), transparent 45%), radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.25), transparent 45%), url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E")`,
+  // 1: Ventura Abstract (Dark)
+  `radial-gradient(ellipse at top right, rgba(244, 63, 94, 0.4) 0%, transparent 40%), radial-gradient(ellipse at bottom left, rgba(59, 130, 246, 0.4) 0%, transparent 40%), linear-gradient(to right, #0f172a, #111827)`,
+  // 2: Monterey Purple
+  `linear-gradient(to right, #4c1d95, #1e3a8a, #0f172a)`,
+  // 3: Deep Space
+  `linear-gradient(to bottom, #000000, #0f2027, #203a43)`,
+  // 4: Solid Dark
+  `linear-gradient(to bottom, #111827, #030712)`
+];
+let currentWp = 0;
+
+function changeWallpaper() {
+  currentWp = (currentWp + 1) % wallpapers.length;
+  document.body.style.backgroundImage = wallpapers[currentWp];
+  try { localStorage.setItem('av_wp', currentWp); } catch(e){}
+}
+
+function loadWallpaper() {
+  try {
+    const saved = localStorage.getItem('av_wp');
+    if (saved !== null) {
+      currentWp = parseInt(saved);
+      document.body.style.backgroundImage = wallpapers[currentWp];
+    }
+  } catch(e){}
+}
 
 // ====== BOOT ======
 async function runBoot() {
@@ -820,7 +872,9 @@ if (clockBtn) {
         e.stopPropagation();
         const cal = document.getElementById('calendar-widget');
         const cc = document.getElementById('control-center');
+        const appleMenu = document.getElementById('apple-dropdown');
         if (cc && cc.classList.contains('open')) cc.classList.remove('open');
+        if (appleMenu && !appleMenu.classList.contains('hidden')) appleMenu.classList.add('hidden');
         if (cal) {
             cal.classList.toggle('open');
             if (cal.classList.contains('open')) renderCalendar();
@@ -898,7 +952,7 @@ const dockUiToggleBtn = document.getElementById('dock-ui-toggle');
 if (dockUiToggleBtn) dockUiToggleBtn.addEventListener('click', toggleUIMode);
 
 
-// ====== ORGANIZE MODE (CASCADE) ======
+// ====== ORGANIZE MODE (CASCADE) & STAGE MANAGER ======
 function cascadeWindows() {
   const wins = Array.from(document.querySelectorAll('.window:not(.minimized)'));
   let startX = 40;
@@ -919,17 +973,144 @@ function cascadeWindows() {
   });
   const cc = document.getElementById('control-center');
   if(cc) cc.classList.remove('open');
+  if(isDesktopShowing) toggleDesktop();
 }
 
-// ====== CONTROL CENTER ======
+function toggleStageManager() {
+    isStageManager = !isStageManager;
+    const smText = document.getElementById('sm-mode-text');
+    if (smText) smText.textContent = isStageManager ? "Stage Manager: On" : "Stage Manager";
+    
+    if (isStageManager) {
+        document.body.classList.add('stage-manager');
+        updateStageManager();
+    } else {
+        document.body.classList.remove('stage-manager');
+        document.querySelectorAll('.window').forEach(w => {
+            w.style.transform = 'none';
+            w.classList.remove('sm-staged', 'sm-active');
+            w.style.transformOrigin = '';
+        });
+        loadPositions(); // Put them back to normal
+    }
+}
+
+function updateStageManager() {
+    if (!isStageManager || window.innerWidth <= 768) return;
+    const wins = Array.from(document.querySelectorAll('.window:not(.minimized)'))
+                      .sort((a,b) => parseInt(a.style.zIndex||0) - parseInt(b.style.zIndex||0));
+    
+    if(wins.length === 0) return;
+    
+    const activeWin = wins[wins.length - 1];
+    const stagedWins = wins.slice(0, wins.length - 1).reverse(); // Reverse so latest goes top
+    
+    // Reset active
+    activeWin.classList.remove('sm-staged');
+    activeWin.classList.add('sm-active');
+    activeWin.style.transform = 'none';
+    activeWin.style.left = 'max(240px, calc(50% - ' + (activeWin.offsetWidth/2) + 'px))';
+    activeWin.style.top = '15%';
+    
+    // Position staged on the left
+    stagedWins.forEach((w, i) => {
+        w.classList.add('sm-staged');
+        w.classList.remove('sm-active');
+        w.style.left = '30px';
+        w.style.top = `${60 + (i * 120)}px`;
+        w.style.transformOrigin = 'top left';
+        w.style.transform = 'scale(0.35)';
+    });
+}
+
+// ====== DESKTOP SCATTER ======
+let isDesktopShowing = false;
+function toggleDesktop() {
+  if(window.innerWidth <= 768) return;
+  isDesktopShowing = !isDesktopShowing;
+  const wins = Array.from(document.querySelectorAll('.window'));
+  
+  wins.forEach((w, i) => {
+    if (isDesktopShowing) {
+      if (w.classList.contains('minimized')) return;
+      w.dataset.wasScattered = "true";
+      const angle = (i / wins.length) * Math.PI * 2;
+      const dist = window.innerWidth;
+      const tx = Math.cos(angle) * dist;
+      const ty = Math.sin(angle) * dist;
+      
+      w.style.transition = 'opacity 0.4s ease, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1)';
+      w.style.transform = `translate(${tx}px, ${ty}px) scale(0.2) rotate(${Math.random()*45 - 22.5}deg)`;
+      w.style.opacity = '0';
+      w.style.pointerEvents = 'none';
+    } else {
+      if (w.dataset.wasScattered === "true") {
+        w.style.transform = 'none';
+        w.style.opacity = '1';
+        w.style.pointerEvents = 'auto';
+        w.dataset.wasScattered = "false";
+        if(isStageManager) {
+            updateStageManager();
+        } else {
+            setTimeout(() => { w.style.transition = 'opacity .2s, transform .3s cubic-bezier(.16,1,.3,1)'; }, 500);
+        }
+      }
+    }
+  });
+}
+
+document.getElementById('desktop').addEventListener('click', (e) => {
+  if (e.target.id === 'desktop') toggleDesktop();
+});
+
+
+// ====== CONTROL CENTER, APPLE MENU, LOCK SCREEN OVERLAYS ======
+function lockScreen() {
+    const ls = document.getElementById('lock-screen');
+    const appleMenu = document.getElementById('apple-dropdown');
+    if (appleMenu) appleMenu.classList.add('hidden');
+    if (ls) {
+        ls.classList.remove('hidden');
+        setTimeout(() => {
+            ls.classList.remove('opacity-0');
+            const pwd = document.getElementById('lock-pass');
+            if (pwd) pwd.focus();
+        }, 50);
+    }
+}
+
+function unlockScreen() {
+    const ls = document.getElementById('lock-screen');
+    const pwd = document.getElementById('lock-pass');
+    if (ls) {
+        ls.classList.add('opacity-0');
+        if (pwd) pwd.value = '';
+        setTimeout(() => { ls.classList.add('hidden'); }, 500);
+    }
+}
+
 const ccBtn = document.getElementById('cc-btn');
 if (ccBtn) {
     ccBtn.addEventListener('click', (e) => {
         e.stopPropagation();
         const cc = document.getElementById('control-center');
         const cal = document.getElementById('calendar-widget');
+        const appleMenu = document.getElementById('apple-dropdown');
         if (cal && cal.classList.contains('open')) cal.classList.remove('open');
+        if (appleMenu && !appleMenu.classList.contains('hidden')) appleMenu.classList.add('hidden');
         if (cc) cc.classList.toggle('open');
+    });
+}
+const appleIcon = document.getElementById('apple-icon');
+if (appleIcon) {
+    appleIcon.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cc = document.getElementById('control-center');
+        const cal = document.getElementById('calendar-widget');
+        const appleMenu = document.getElementById('apple-dropdown');
+        if (cc && cc.classList.contains('open')) cc.classList.remove('open');
+        if (cal && cal.classList.contains('open')) cal.classList.remove('open');
+        if (appleMenu) appleMenu.classList.toggle('hidden');
     });
 }
 document.addEventListener('click', (e) => {
@@ -937,6 +1118,8 @@ document.addEventListener('click', (e) => {
     const ccBtn = document.getElementById('cc-btn');
     const cal = document.getElementById('calendar-widget');
     const clock = document.getElementById('clock-btn');
+    const appleMenu = document.getElementById('apple-dropdown');
+    const appleIcon = document.getElementById('apple-icon');
     
     if(cc && ccBtn && cc.classList.contains('open') && !cc.contains(e.target) && !ccBtn.contains(e.target)) {
         cc.classList.remove('open');
@@ -944,11 +1127,15 @@ document.addEventListener('click', (e) => {
     if(cal && clock && cal.classList.contains('open') && !cal.contains(e.target) && !clock.contains(e.target)) {
         cal.classList.remove('open');
     }
+    if(appleMenu && appleIcon && !appleMenu.classList.contains('hidden') && !appleMenu.contains(e.target) && !appleIcon.contains(e.target)) {
+        appleMenu.classList.add('hidden');
+    }
 });
 
 // ====== WINDOW MANAGEMENT ======
 function bringToFront(win) {
   if (!win) return;
+  if (isDesktopShowing) toggleDesktop();
   highestZ++;
   win.style.zIndex = highestZ;
   const id = win.getAttribute('data-id');
@@ -957,9 +1144,14 @@ function bringToFront(win) {
       icon.classList.add('active');
     else icon.classList.remove('active');
   });
+  
+  if(isStageManager && !win.classList.contains('minimized')) {
+      updateStageManager();
+  }
 }
 
 function savePositions() {
+  if (isStageManager) return; // Don't save stage manager layout as default
   const pos = {};
   document.querySelectorAll('.window').forEach(win => {
     const id = win.getAttribute('data-id');
@@ -987,17 +1179,26 @@ function makeDraggable(win, header) {
   let p1=0,p2=0,p3=0,p4=0;
   header.onmousedown = e => {
     if (win.classList.contains('maximized')) return;
+    if (isStageManager && win.classList.contains('sm-staged')) return; // Disable drag for staged windows
+    
     e.preventDefault();
     p3 = e.clientX; p4 = e.clientY;
     bringToFront(win);
-    const rect = win.getBoundingClientRect();
-    win.style.left = rect.left + 'px'; win.style.top = rect.top + 'px';
-    win.style.transition = 'opacity .2s'; // Remove layout transitions during drag
+    
+    if(!isStageManager) {
+        const rect = win.getBoundingClientRect();
+        win.style.left = rect.left + 'px'; win.style.top = rect.top + 'px';
+        win.style.transition = 'opacity .2s'; // Remove layout transitions during drag
+    }
+    
     document.onmouseup = () => {
       document.onmouseup = null; document.onmousemove = null;
-      win.style.transition = 'opacity .2s, transform .3s cubic-bezier(.16,1,.3,1)';
-      savePositions();
+      if(!isStageManager) {
+          win.style.transition = 'opacity .2s, transform .3s cubic-bezier(.16,1,.3,1)';
+          savePositions();
+      }
     };
+    
     document.onmousemove = e => {
       e.preventDefault();
       p1 = p3 - e.clientX; p2 = p4 - e.clientY;
@@ -1020,12 +1221,14 @@ document.querySelectorAll('.window').forEach(win => {
     win.classList.add('minimized');
     const icon = document.querySelector(`.dock-icon[data-target="${id}"]`);
     if(icon) icon.classList.remove('active');
+    if(isStageManager) updateStageManager();
   });
   const minBtn = win.querySelector('.min-btn');
   if(minBtn) minBtn.addEventListener('click', () => {
     win.classList.add('minimized');
     const icon = document.querySelector(`.dock-icon[data-target="${id}"]`);
     if(icon) icon.classList.remove('active');
+    if(isStageManager) updateStageManager();
   });
   const maxBtn = win.querySelector('.max-btn');
   if(maxBtn) maxBtn.addEventListener('click', () => {
@@ -1033,7 +1236,7 @@ document.querySelectorAll('.window').forEach(win => {
       win.classList.remove('maximized');
       win.style.width = win.dataset.ow; win.style.height = win.dataset.oh;
       win.style.left = win.dataset.ol; win.style.top = win.dataset.ot;
-      win.style.borderRadius = '12px';
+      win.style.borderRadius = '14px';
     } else {
       win.dataset.ow = win.style.width || win.getBoundingClientRect().width + 'px';
       win.dataset.oh = win.style.height || win.getBoundingClientRect().height + 'px';
@@ -1058,7 +1261,7 @@ document.querySelectorAll('.dock-icon[data-target]').forEach(btn => {
       bringToFront(win);
       btn.classList.add('active');
       if (!animatedWindows.has(id)) animateTerminal(win, 0);
-    } else if (parseInt(win.style.zIndex) === highestZ) {
+    } else if (parseInt(win.style.zIndex) === highestZ && !isStageManager) {
       win.classList.add('minimized'); btn.classList.remove('active');
     } else {
       bringToFront(win);
@@ -1073,7 +1276,7 @@ const spotlightData = [
   { id:'projects', title:'Projects', subtitle:'AI Log Analyzer, JobScanner, VMS', icon:'fa-code', color:'from-green-500 to-emerald-600' },
   { id:'skills', title:'Skills', subtitle:'Java, K8s, Docker, LGTM, Node.js', icon:'fa-bolt', color:'from-yellow-500 to-orange-600' },
   { id:'education', title:'Education', subtitle:'BITS Pilani M.Tech, BCA', icon:'fa-graduation-cap', color:'from-teal-500 to-cyan-600' },
-  { id:'contact', title:'Contact', subtitle:'Email, GitHub, LinkedIn', icon:'fa-envelope', color:'from-pink-500 to-rose-600' },
+  { id:'contact', title:'Contact', subtitle:'Email, GitHub, LinkedIn, LeetCode', icon:'fa-envelope', color:'from-pink-500 to-rose-600' },
 ];
 let spotIdx = 0;
 
@@ -1096,8 +1299,8 @@ function renderSpotlightResults(q) {
   res.innerHTML = items.length ? items.map((d, i) => `
     <div class="spot-item ${i===0?'selected':''}" data-id="${d.id}">
       <div class="spot-icon bg-gradient-to-br ${d.color} text-white"><i class="fa-solid ${d.icon}"></i></div>
-      <div><div style="color:#fff;font-size:14px;font-family:Inter;font-weight:500">${d.title}</div><div style="color:rgba(255,255,255,0.5);font-size:12px;font-family:Inter">${d.subtitle}</div></div>
-    </div>`) .join('') : '<div style="padding:20px;text-align:center;color:rgba(255,255,255,0.5);font-family:Inter;font-size:13px">No results</div>';
+      <div><div style="color:#fff;font-size:14px;font-family:-apple-system, sans-serif;font-weight:500">${d.title}</div><div style="color:rgba(255,255,255,0.5);font-size:12px;font-family:-apple-system, sans-serif">${d.subtitle}</div></div>
+    </div>`) .join('') : '<div style="padding:20px;text-align:center;color:rgba(255,255,255,0.5);font-family:-apple-system, sans-serif;font-size:13px">No results</div>';
   res.querySelectorAll('.spot-item').forEach(item => {
     item.addEventListener('click', () => { openWindowById(item.dataset.id); closeSpotlight(); });
   });
@@ -1144,37 +1347,54 @@ document.addEventListener('keydown', e => {
 // ====== GITHUB API ======
 async function fetchGitHub() {
   try {
+    // Repos
     const res = await fetch('https://api.github.com/users/CodeAadarsh/repos?sort=updated&per_page=8');
     const gh = document.getElementById('gh-loading');
-    if (!res.ok) { if(gh) gh.style.display='none'; return; }
-    const repos = await res.json();
-    if(gh) gh.style.display = 'none';
-    if (!repos || !repos.length) return;
-    const filtered = repos.filter(r => !r.fork).slice(0, 4);
-    const termList = document.getElementById('gh-term-list');
-    const uiGrid = document.getElementById('gh-ui-grid');
-    if (termList && filtered.length) {
-      termList.innerHTML = filtered.map(r => `
-        <div class="hover:bg-white/5 p-2 rounded transition interactive">
-          <div class="text-warp-path font-bold mb-1"><i class="fa-regular fa-folder-open mr-1"></i> ${r.name}/
-            ${r.stargazers_count > 0 ? `<span class="text-yellow-400 text-xs ml-2">★${r.stargazers_count}</span>` : ''}
-          </div>
-          <div class="pl-5 border-l border-white/10 ml-1 py-1 text-white/70">${r.description || 'A project by Aadarsh Verma'}${r.language ? ` <span class="text-blue-400 text-xs">[${r.language}]</span>` : ''}</div>
-        </div>`).join('');
+    if (res.ok) {
+        const repos = await res.json();
+        if(gh) gh.style.display = 'none';
+        if (repos && repos.length) {
+            const filtered = repos.filter(r => !r.fork).slice(0, 4);
+            const termList = document.getElementById('gh-term-list');
+            const uiGrid = document.getElementById('gh-ui-grid');
+            if (termList && filtered.length) {
+              termList.innerHTML = filtered.map(r => `
+                <div class="hover:bg-white/5 p-2 rounded transition interactive">
+                  <div class="text-warp-path font-bold mb-1"><i class="fa-regular fa-folder-open mr-1"></i> ${r.name}/
+                    ${r.stargazers_count > 0 ? `<span class="text-yellow-400 text-xs ml-2">★${r.stargazers_count}</span>` : ''}
+                  </div>
+                  <div class="pl-5 border-l border-white/10 ml-1 py-1 text-white/70 font-sans text-xs">${r.description || 'A project by Aadarsh Verma'}${r.language ? ` <span class="text-blue-400 text-xs font-mono">[${r.language}]</span>` : ''}</div>
+                </div>`).join('');
+            }
+            if (uiGrid && filtered.length) {
+              uiGrid.innerHTML = filtered.slice(0,3).map(r => `
+                <div class="bg-white/5 p-4 rounded-xl border border-white/10 shadow-lg transition hover:border-blue-500/50">
+                  <div class="flex items-start justify-between mb-2">
+                    <h3 class="text-sm font-bold text-white"><i class="fa-brands fa-github text-white/50 mr-2"></i>${r.name}</h3>
+                    ${r.stargazers_count > 0 ? `<span class="text-yellow-400 text-xs">★ ${r.stargazers_count}</span>` : ''}
+                  </div>
+                  <p class="text-white/70 text-sm mb-3 leading-relaxed">${r.description || 'A project by Aadarsh Verma'}</p>
+                  <div class="flex gap-2 flex-wrap">
+                    ${r.language ? `<span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">${r.language}</span>` : ''}
+                    <a href="${r.html_url}" target="_blank" class="bg-blue-500/20 text-blue-200 border border-blue-500/30 px-2 py-0.5 rounded text-xs interactive">View →</a>
+                  </div>
+                </div>`).join('');
+            }
+        }
+    } else {
+        if(gh) gh.style.display='none';
     }
-    if (uiGrid && filtered.length) {
-      uiGrid.innerHTML = filtered.slice(0,3).map(r => `
-        <div class="bg-white/5 p-4 rounded-xl border border-white/10 shadow-lg transition hover:border-blue-500/50">
-          <div class="flex items-start justify-between mb-2">
-            <h3 class="text-sm font-bold text-white"><i class="fa-brands fa-github text-white/50 mr-2"></i>${r.name}</h3>
-            ${r.stargazers_count > 0 ? `<span class="text-yellow-400 text-xs">★ ${r.stargazers_count}</span>` : ''}
-          </div>
-          <p class="text-white/70 text-sm mb-3 leading-relaxed">${r.description || 'A project by Aadarsh Verma'}</p>
-          <div class="flex gap-2 flex-wrap">
-            ${r.language ? `<span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">${r.language}</span>` : ''}
-            <a href="${r.html_url}" target="_blank" class="bg-blue-500/20 text-blue-200 border border-blue-500/30 px-2 py-0.5 rounded text-xs interactive">View →</a>
-          </div>
-        </div>`).join('');
+    
+    // Profile
+    const profRes = await fetch('https://api.github.com/users/CodeAadarsh');
+    if (profRes.ok) {
+        const prof = await profRes.json();
+        const av = document.getElementById('gh-avatar');
+        const lockAv = document.getElementById('lock-avatar');
+        const mobAv = document.getElementById('gh-avatar-mob');
+        if(av && prof.avatar_url) av.src = prof.avatar_url;
+        if(lockAv && prof.avatar_url) lockAv.src = prof.avatar_url;
+        if(mobAv && prof.avatar_url) mobAv.src = prof.avatar_url;
     }
     refreshInteractables();
   } catch(e) {
@@ -1237,7 +1457,7 @@ if (easterInput) {
 function triggerHireEasterEgg() {
   const line = document.createElement('div');
   line.className = 'easter-line';
-  line.innerHTML = `<span class="text-green-400 font-bold">✓ Request processed successfully!</span><br><span class="text-gray-300">Sending offer letter to Aadarsh... 📨</span>`;
+  line.innerHTML = `<span class="text-green-400 font-bold">✓ Request processed successfully!</span><br><span class="text-gray-300 font-sans text-xs">Sending offer letter to Aadarsh... 📨</span>`;
   easterOutput.appendChild(line);
   easterOutput.scrollTop = easterOutput.scrollHeight;
   for (let i = 0; i < 60; i++) {
@@ -1289,6 +1509,7 @@ function showShortcutsToast() {
 
 // ====== INTRO SEQUENCE ======
 async function runIntro() {
+  loadWallpaper();
   const sequence = [
     { id:'win-skills',     delay:0 },
     { id:'win-contact',    delay:80 },
@@ -1330,6 +1551,8 @@ window.addEventListener('load', async () => {
   await runBoot();
   if(window.innerWidth > 768) {
       await runIntro();
+  } else {
+      loadWallpaper();
   }
 });
 </script>
