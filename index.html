@@ -13,8 +13,8 @@ tailwind.config = {
     extend: {
       fontFamily: { mono:['"JetBrains Mono"','monospace'], sans:['Inter','sans-serif'] },
       colors: {
-        mac:{ red:'#FF5F56', yellow:'#FFBD2E', green:'#27C93F', bg:'#141517', border:'#2E3036', panel:'rgba(28,29,33,0.75)' },
-        warp:{ prompt:'#A855F7', path:'#3B82F6', text:'#E5E7EB', success:'#10B981', highlight:'#2A2C33' }
+        mac:{ red:'#FF5F56', yellow:'#FFBD2E', green:'#27C93F', bg:'rgba(20,20,25,0.4)', border:'rgba(255,255,255,0.1)' },
+        warp:{ prompt:'#A855F7', path:'#3B82F6', text:'#E5E7EB', success:'#10B981', highlight:'rgba(255,255,255,0.05)' }
       }
     }
   }
@@ -22,59 +22,94 @@ tailwind.config = {
 </script>
 <style>
 *{box-sizing:border-box}
-body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a24 0%,transparent 70%),linear-gradient(rgba(255,255,255,0.025) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,0.025) 1px,transparent 1px);background-size:100% 100%,40px 40px,40px 40px;overflow:hidden;cursor:none;color:#E5E7EB;font-family:'JetBrains Mono',monospace}
+body{
+    background-color: #0f111a;
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(124, 58, 237, 0.4), transparent 45%),
+        radial-gradient(circle at 85% 30%, rgba(59, 130, 246, 0.4), transparent 45%),
+        radial-gradient(circle at 50% 90%, rgba(16, 185, 129, 0.25), transparent 45%),
+        url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.06'/%3E%3C/svg%3E");
+    background-size: 100% 100%, 100% 100%, 100% 100%, 150px 150px;
+    background-attachment: fixed;
+    overflow:hidden;cursor:none;color:#E5E7EB;font-family:'JetBrains Mono',monospace;
+}
+
 #cursor-dot{width:14px;height:14px;background:#fff;mix-blend-mode:difference;position:fixed;border-radius:50%;pointer-events:none;z-index:10000;transform:translate(-50%,-50%);transition:width .15s,height .15s}
-#cursor-dot.hovering{width:36px;height:36px;background:rgba(255,255,255,0.15);mix-blend-mode:normal;border:1px solid #A855F7}
-.window{position:absolute;background:rgba(20,21,23,0.9);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px);border:1px solid #2E3036;border-radius:12px;box-shadow:0 30px 60px -12px rgba(0,0,0,0.85);display:flex;flex-direction:column;overflow:hidden;transition:opacity .2s,transform .3s cubic-bezier(.16,1,.3,1)}
-.window.minimized{opacity:0;pointer-events:none;transform:translateY(60px) scale(0.93)!important}
-.window-header{cursor:grab;background:linear-gradient(to bottom,rgba(42,44,51,0.9),rgba(28,29,33,0.9));border-bottom:1px solid #2E3036;user-select:none}
+#cursor-dot.hovering{width:36px;height:36px;background:rgba(255,255,255,0.2);backdrop-filter:blur(4px);mix-blend-mode:normal;border:1px solid rgba(255,255,255,0.5)}
+
+/* SEQUOIA GLASS LIQUID THEME */
+.glass-panel {
+    background: rgba(30, 30, 35, 0.4);
+    backdrop-filter: blur(40px) saturate(150%);
+    -webkit-backdrop-filter: blur(40px) saturate(150%);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 30px 60px -12px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.1);
+}
+
+/* RESIZABLE WINDOWS */
+.window{position:absolute;border-radius:14px;display:flex;flex-direction:column;overflow:auto;resize:both;min-width:350px;min-height:250px;padding-bottom:2px;transition:opacity .2s,transform .3s cubic-bezier(.16,1,.3,1)}
+.window::-webkit-resizer {background: transparent;}
+.window::after { content:''; position:absolute; bottom:4px; right:4px; width:12px; height:12px; background:radial-gradient(circle, rgba(255,255,255,0.4) 1.5px, transparent 1.5px); background-size:4px 4px; pointer-events:none; cursor:nwse-resize; }
+.window.minimized{opacity:0;pointer-events:none;transform:translateY(60px) scale(0.93)!important; resize:none;}
+.window-header{cursor:grab;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.08);user-select:none;position:sticky;top:0;z-index:10;}
 .window-header:active{cursor:grabbing}
 ::-webkit-scrollbar{width:6px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#3E4048;border-radius:3px}
+::-webkit-scrollbar-thumb{background:rgba(255,255,255,0.2);border-radius:3px}
+
 .prompt-line::before{content:'❯';color:#A855F7;margin-right:8px;font-weight:bold}
-.dock-icon{transition:all .2s cubic-bezier(.25,1,.5,1);transform-origin:bottom}
-.dock-icon:hover{transform:scale(1.45);margin:0 12px}
-.dock-icon.active::after{content:'';position:absolute;bottom:-7px;left:50%;transform:translateX(-50%);width:4px;height:4px;background:#E5E7EB;border-radius:50%}
+.dock-icon{transition:all .2s cubic-bezier(.25,1,.5,1);transform-origin:bottom; box-shadow: inset 0 1px 1px rgba(255,255,255,0.4), 0 10px 20px rgba(0,0,0,0.4);}
+.dock-icon:hover{transform:scale(1.35);margin:0 12px}
+.dock-icon.active::after{content:'';position:absolute;bottom:-8px;left:50%;transform:translateX(-50%);width:4px;height:4px;background:#fff;border-radius:50%;box-shadow: 0 0 4px #fff;}
 .hidden-view{display:none!important}
 .term-output{transition:opacity .3s ease}
 .term-output.hidden-out{opacity:0}
-#boot-screen{position:fixed;inset:0;background:#000;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease}
+#boot-screen{position:fixed;inset:0;background:#0f111a;z-index:99999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .6s ease}
 #boot-screen.fade-out{opacity:0;pointer-events:none}
 #boot-bar-fill{transition:width 2.2s cubic-bezier(.4,0,.2,1)}
-#spotlight-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.55);backdrop-filter:blur(6px);z-index:9990;display:none;align-items:flex-start;justify-content:center;padding-top:18vh}
+
+/* SPOTLIGHT */
+#spotlight-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.4);backdrop-filter:blur(10px);z-index:9990;display:none;align-items:flex-start;justify-content:center;padding-top:18vh}
 #spotlight-overlay.open{display:flex}
-#spotlight-box{background:rgba(30,31,36,0.97);border:1px solid #3E4048;border-radius:14px;width:100%;max-width:580px;overflow:hidden;box-shadow:0 40px 80px rgba(0,0,0,0.7)}
+#spotlight-box{width:100%;max-width:580px;overflow:hidden;}
 #spotlight-input{width:100%;background:transparent;border:none;outline:none;color:#fff;font-family:'JetBrains Mono',monospace;font-size:18px;padding:18px 22px}
-#spotlight-results{border-top:1px solid #2E3036;max-height:300px;overflow-y:auto}
+#spotlight-results{border-top:1px solid rgba(255,255,255,0.1);max-height:300px;overflow-y:auto}
 .spot-item{padding:12px 20px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:background .15s}
-.spot-item:hover,.spot-item.selected{background:rgba(168,85,247,0.15)}
-.spot-item .spot-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
-#shortcuts-toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:rgba(30,31,36,0.95);border:1px solid #3E4048;border-radius:10px;padding:10px 20px;font-size:12px;color:#9CA3AF;z-index:9000;transition:opacity .5s;pointer-events:none;white-space:nowrap}
+.spot-item:hover,.spot-item.selected{background:rgba(255,255,255,0.1)}
+.spot-item .spot-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;box-shadow:inset 0 1px 1px rgba(255,255,255,0.3)}
+
+/* CONTROL CENTER & CALENDAR */
+#control-center, #calendar-widget { transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1); transform-origin: top right; }
+#control-center.open, #calendar-widget.open { opacity: 1; transform: scale(1); pointer-events: auto; }
+
+#shortcuts-toast{position:fixed;bottom:100px;left:50%;transform:translateX(-50%);z-index:9000;transition:opacity .5s;pointer-events:none;white-space:nowrap}
 #shortcuts-toast.hidden{opacity:0}
-#gh-loading{display:inline-flex;align-items:center;gap:6px;color:#6B7280;font-size:12px}
+#gh-loading{display:inline-flex;align-items:center;gap:6px;color:rgba(255,255,255,0.5);font-size:12px}
 .spin{animation:spin 1s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
 .blink-cursor{display:inline-block;width:8px;height:15px;background:#A855F7;margin-left:2px;animation:blink 1s step-end infinite;vertical-align:middle}
 @keyframes blink{50%{opacity:0}}
-#easter-input{background:transparent;border:none;outline:none;color:#E5E7EB;font-family:'JetBrains Mono',monospace;font-size:14px;flex:1;caret-color:#A855F7}
+#easter-input{background:transparent;border:none;outline:none;color:#E5E7EB;font-family:'JetBrains Mono',monospace;font-size:14px;flex:1;caret-color:#fff}
 .easter-line{margin-top:4px;line-height:1.6}
 .confetti-piece{position:fixed;width:10px;height:10px;border-radius:2px;pointer-events:none;z-index:99998;animation:confetti-fall 3s ease-in forwards}
 @keyframes confetti-fall{0%{opacity:1;transform:translateY(-20px) rotate(0deg)}100%{opacity:0;transform:translateY(100vh) rotate(720deg)}}
+
+/* MOBILE IOS UI */
 @media (max-width:768px){
-  body{cursor:auto;overflow:auto}
+  body{cursor:auto;overflow:hidden;}
   #cursor-dot,#top-menu,#desktop,#shortcuts-toast{display:none!important}
   #mobile-ui{display:flex!important}
 }
-#mobile-ui{display:none;flex-direction:column;height:100vh;background:#0A0A0C}
-.mob-tab-content{display:none;flex:1;overflow-y:auto;padding:16px}
-.mob-tab-content.active{display:block}
-#mobile-tabs{display:flex;background:rgba(20,21,23,0.95);border-top:1px solid #2E3036;overflow-x:auto}
-.mob-tab{flex:1;min-width:55px;display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;cursor:pointer;color:#6B7280;font-family:Inter,sans-serif;font-size:10px;transition:color .15s}
-.mob-tab.active,.mob-tab:hover{color:#A855F7}
-.mob-card{background:rgba(28,29,33,0.8);border:1px solid #2E3036;border-radius:12px;padding:16px;margin-bottom:12px}
-.mob-card h3{font-family:Inter;font-size:15px;font-weight:600;color:#fff;margin-bottom:6px}
-.mob-card p{font-family:Inter;font-size:13px;color:#9CA3AF;line-height:1.5}
+#mobile-ui{display:none;flex-direction:column;height:100vh;background:transparent;}
+.ios-icon {border-radius: 22.5%; box-shadow: 0 4px 10px rgba(0,0,0,0.4), inset 0 1px 1px rgba(255,255,255,0.3);}
+.mob-card{background:rgba(255,255,255,0.05);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:18px;margin-bottom:14px}
+.mob-card h3{font-family:Inter;font-size:16px;font-weight:600;color:#fff;margin-bottom:6px}
+.mob-card p{font-family:Inter;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5}
+.ios-app-content-wrapper { padding: 20px; padding-bottom: 40px; }
+
+/* Menu Hover Effect */
+.menu-item { padding: 2px 8px; border-radius: 4px; transition: background 0.1s; }
+.menu-item:hover { background: rgba(255,255,255,0.15); }
 </style>
 </head>
 <body class="w-screen h-screen text-sm antialiased">
@@ -83,12 +118,12 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
 <div id="boot-screen">
   <div style="text-align:center">
     <div style="font-size:72px;margin-bottom:20px"></div>
-    <div style="font-family:Inter;font-size:26px;font-weight:700;color:#fff;letter-spacing:-0.5px;margin-bottom:6px">AadarshOS</div>
-    <div style="font-family:Inter;font-size:13px;color:#555;margin-bottom:40px">Version 2.0 — Bengaluru Edition</div>
-    <div style="width:220px;height:3px;background:#222;border-radius:2px;overflow:hidden;margin:0 auto">
-      <div id="boot-bar-fill" style="height:100%;width:0%;background:linear-gradient(90deg,#7C3AED,#A855F7);border-radius:2px"></div>
+    <div style="font-family:Inter;font-size:26px;font-weight:700;color:#fff;letter-spacing:-0.5px;margin-bottom:6px">Portfolio</div>
+    <div style="font-family:Inter;font-size:13px;color:rgba(255,255,255,0.6);margin-bottom:40px">Sequoia Edition</div>
+    <div style="width:220px;height:4px;background:rgba(255,255,255,0.1);border-radius:2px;overflow:hidden;margin:0 auto">
+      <div id="boot-bar-fill" style="height:100%;width:0%;background:#fff;border-radius:2px"></div>
     </div>
-    <div id="boot-status" style="font-family:Inter;font-size:11px;color:#444;margin-top:14px;min-height:16px">Initializing kernel...</div>
+    <div id="boot-status" style="font-family:Inter;font-size:11px;color:rgba(255,255,255,0.5);margin-top:14px;min-height:16px">Initializing environment...</div>
   </div>
 </div>
 
@@ -96,95 +131,138 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
 <div id="cursor-dot"></div>
 
 <!-- ======== TOP MENU BAR ======== -->
-<nav id="top-menu" class="fixed top-0 left-0 w-full h-7 flex justify-between items-center px-4 text-[13px] font-sans font-medium text-gray-300 z-[1000] border-b border-mac-border" style="background:rgba(20,21,23,0.85);backdrop-filter:blur(20px)">
-  <div class="flex items-center gap-4">
-    <i class="fa-brands fa-apple text-[15px]"></i>
-    <span class="font-bold text-white">AadarshOS</span>
-    <span class="hidden sm:inline hover:text-white cursor-pointer interactive">File</span>
-    <span class="hidden sm:inline hover:text-white cursor-pointer interactive">Edit</span>
-    <span class="hidden sm:inline hover:text-white cursor-pointer interactive">View</span>
+<nav id="top-menu" class="glass-panel fixed top-0 left-0 w-full h-7 flex justify-between items-center px-4 text-[13px] font-sans font-medium text-white z-[1000] border-t-0 border-l-0 border-r-0 rounded-none">
+  <div class="flex items-center gap-1">
+    <i class="fa-brands fa-apple text-[15px] menu-item interactive cursor-pointer"></i>
+    <span class="font-bold menu-item interactive cursor-pointer">Portfolio</span>
+    <span class="hidden sm:inline menu-item interactive cursor-pointer">File</span>
+    <span class="hidden sm:inline menu-item interactive cursor-pointer">Edit</span>
+    <span class="hidden sm:inline menu-item interactive cursor-pointer" onclick="cascadeWindows()">Organize</span>
   </div>
-  <div class="flex items-center gap-4">
-    <button id="spotlight-btn" class="interactive flex items-center gap-1.5 bg-white/10 hover:bg-white/20 px-2.5 py-0.5 rounded text-[12px] transition">
+  <div class="flex items-center gap-2">
+    <button id="spotlight-btn" class="interactive flex items-center gap-1.5 menu-item transition">
       <i class="fa-solid fa-magnifying-glass text-[11px]"></i>
-      <span class="hidden sm:inline">Search</span>
-      <kbd class="hidden sm:inline text-[10px] text-gray-500 ml-1">⌘K</kbd>
     </button>
-    <button id="ui-mode-toggle" class="interactive flex items-center gap-1.5 bg-white/10 hover:bg-white/20 px-2.5 py-0.5 rounded text-[12px] transition">
-      <i class="fa-solid fa-terminal text-yellow-400 text-[11px]"></i>
-      <span id="mode-text">UI Mode</span>
-    </button>
-    <i class="fa-solid fa-wifi text-[12px]"></i>
-    <span id="clock" class="tracking-wide">Mon 10:00 AM</span>
+    <div id="cc-btn" class="flex items-center gap-2.5 interactive cursor-pointer menu-item transition">
+      <i class="fa-solid fa-wifi text-[12px]"></i>
+      <i class="fa-solid fa-battery-full text-[14px]"></i>
+      <i class="fa-solid fa-sliders text-[13px]"></i>
+    </div>
+    <div id="clock-btn" class="interactive cursor-pointer menu-item transition tracking-wide">
+      <span id="clock">Mon 10:00 AM</span>
+    </div>
   </div>
 </nav>
 
+<!-- ======== CONTROL CENTER ======== -->
+<div id="control-center" class="glass-panel fixed top-9 right-2 w-72 p-4 z-[2000] transform scale-95 opacity-0 pointer-events-none rounded-2xl">
+    <div class="grid grid-cols-2 gap-3 mb-3">
+        <div class="bg-white/10 rounded-xl p-3 flex items-center gap-3 interactive cursor-pointer hover:bg-white/20 transition border border-white/5">
+            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-lg"><i class="fa-solid fa-wifi"></i></div>
+            <div class="font-sans text-sm font-medium text-white">Wi-Fi<br><span class="text-xs text-blue-300">Home</span></div>
+        </div>
+        <div class="bg-white/10 rounded-xl p-3 flex items-center gap-3 interactive cursor-pointer hover:bg-white/20 transition border border-white/5">
+            <div class="w-8 h-8 rounded-full bg-blue-500 flex items-center justify-center text-white shadow-lg"><i class="fa-brands fa-bluetooth-b"></i></div>
+            <div class="font-sans text-sm font-medium text-white">Bluetooth<br><span class="text-xs text-blue-300">On</span></div>
+        </div>
+    </div>
+    <div class="grid grid-cols-2 gap-3">
+         <button onclick="toggleUIMode()" class="bg-white/10 hover:bg-white/20 border border-white/5 transition rounded-xl p-3 flex flex-col items-center justify-center gap-2 interactive text-center">
+            <i class="fa-solid fa-wand-magic-sparkles text-yellow-400 text-lg"></i>
+            <span class="text-xs font-sans text-white font-medium" id="cc-mode-text">Toggle UI Mode</span>
+         </button>
+         <button onclick="cascadeWindows()" class="bg-white/10 hover:bg-white/20 border border-white/5 transition rounded-xl p-3 flex flex-col items-center justify-center gap-2 interactive text-center">
+            <i class="fa-solid fa-layer-group text-purple-400 text-lg"></i>
+            <span class="text-xs font-sans text-white font-medium">Organize Mode</span>
+         </button>
+    </div>
+</div>
+
+<!-- ======== CALENDAR WIDGET ======== -->
+<div id="calendar-widget" class="glass-panel fixed top-9 right-4 w-64 p-4 z-[2000] transform scale-95 opacity-0 pointer-events-none rounded-2xl">
+    <div class="flex justify-between items-center mb-4">
+        <span id="cal-month-year" class="text-white font-bold font-sans"></span>
+        <div class="flex gap-2">
+            <i class="fa-solid fa-chevron-left text-gray-400 hover:text-white cursor-pointer interactive p-1" onclick="changeMonth(-1)"></i>
+            <i class="fa-solid fa-chevron-right text-gray-400 hover:text-white cursor-pointer interactive p-1" onclick="changeMonth(1)"></i>
+        </div>
+    </div>
+    <div class="grid grid-cols-7 gap-1 text-center text-xs font-sans text-gray-400 mb-2 font-semibold">
+        <div>Su</div><div>Mo</div><div>Tu</div><div>We</div><div>Th</div><div>Fr</div><div>Sa</div>
+    </div>
+    <div id="cal-days" class="grid grid-cols-7 gap-1 text-center text-sm font-sans text-white">
+        <!-- Days generated by JS -->
+    </div>
+</div>
+
 <!-- ======== SPOTLIGHT ======== -->
 <div id="spotlight-overlay">
-  <div id="spotlight-box">
+  <div id="spotlight-box" class="glass-panel">
     <div class="flex items-center px-4">
-      <i class="fa-solid fa-magnifying-glass text-gray-500 mr-3 text-[15px]"></i>
+      <i class="fa-solid fa-magnifying-glass text-white/50 mr-3 text-[15px]"></i>
       <input id="spotlight-input" placeholder="Search portfolio..." autocomplete="off" spellcheck="false">
     </div>
     <div id="spotlight-results"></div>
-    <div style="padding:8px 20px;font-size:11px;color:#4B5563;font-family:Inter;border-top:1px solid #1f2028">
+    <div style="padding:8px 20px;font-size:11px;color:rgba(255,255,255,0.4);font-family:Inter;border-top:1px solid rgba(255,255,255,0.1)">
       ↑↓ navigate &nbsp;·&nbsp; ↵ open &nbsp;·&nbsp; esc close
     </div>
   </div>
 </div>
 
 <!-- ======== SHORTCUTS HINT ======== -->
-<div id="shortcuts-toast">
-  <i class="fa-solid fa-keyboard mr-2 text-purple-400"></i>
-  <kbd class="text-white">⌘K</kbd> Spotlight &nbsp;·&nbsp; <kbd class="text-white">⌘1-6</kbd> Windows &nbsp;·&nbsp; <kbd class="text-white">⌘T</kbd> Toggle Mode
+<div id="shortcuts-toast" class="glass-panel px-5 py-2">
+  <i class="fa-solid fa-keyboard mr-2 text-white/70"></i>
+  <kbd class="text-white">⌘K</kbd> Search &nbsp;·&nbsp; <kbd class="text-white">⌘1-6</kbd> Apps &nbsp;·&nbsp; <kbd class="text-white">⌘T</kbd> UI Mode
 </div>
 
 <!-- ======== DESKTOP ======== -->
 <main id="desktop" class="relative w-full h-full pt-7">
 
   <!-- ===== ABOUT ===== -->
-  <div id="win-about" class="window" style="width:580px;height:430px;left:3%;top:12%;z-index:10" data-id="about" data-title="About Me" data-icon="fa-user" data-color="purple">
+  <div id="win-about" class="window glass-panel" style="width:580px;height:430px;left:3%;top:12%;z-index:10" data-id="about" data-title="About Me" data-icon="fa-user" data-color="purple">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
-        <button class="w-3 h-3 rounded-full bg-mac-red hover:brightness-110 transition close-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-yellow hover:brightness-110 transition min-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-green hover:brightness-110 transition max-btn interactive"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-red hover:brightness-110 transition close-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-yellow hover:brightness-110 transition min-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-green hover:brightness-110 transition max-btn interactive border border-black/20"></button>
       </div>
-      <div class="flex items-center gap-2 text-gray-400 text-xs font-sans font-semibold">
+      <div class="flex items-center gap-2 text-white/70 text-xs font-sans font-semibold">
         <i class="fa-solid fa-user"></i> about_me.json
       </div>
       <div class="w-10"></div>
     </div>
-    <div class="flex-1 overflow-y-auto bg-mac-bg">
+    <div class="flex-1 bg-mac-bg">
       <!-- TERMINAL VIEW -->
       <div class="view-content view-terminal p-5 text-warp-text space-y-5">
         <div class="term-block">
-          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-gray-600">in</span> <span class="text-warp-success">~</span></div>
+          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~</span></div>
           <div class="prompt-line term-cmd" data-text="cat profile.json"></div>
           <div class="term-output hidden-out mt-2">
             <div class="bg-warp-highlight p-4 rounded-lg border border-mac-border">
 <pre class="text-sm leading-relaxed"><span class="text-purple-400">{</span>
   <span class="text-blue-400">"name"</span>: <span class="text-green-400">"Aadarsh Verma"</span>,
+  <span class="text-blue-400">"age"</span>: <span class="text-yellow-300">22</span>,
   <span class="text-blue-400">"role"</span>: <span class="text-green-400">"Software Engineer @ SAP Labs"</span>,
   <span class="text-blue-400">"location"</span>: <span class="text-green-400">"Bengaluru, India"</span>,
-  <span class="text-blue-400">"focus"</span>: <span class="text-green-400">"AI Systems, Observability, Cloud-Native"</span>,
-  <span class="text-blue-400">"stack"</span>: <span class="text-yellow-300">["Node.js","Java","Docker","K8s","LGTM"]</span>
+  <span class="text-blue-400">"focus"</span>: <span class="text-green-400">"AI Systems, Observability, K8s"</span>,
+  <span class="text-blue-400">"stack"</span>: <span class="text-yellow-300">["Node.js","Java","Python","Docker","LGTM"]</span>,
+  <span class="text-blue-400">"open_to"</span>: <span class="text-green-400">"SRE / SDE-2 / Senior Infra Roles"</span>
 <span class="text-purple-400">}</span></pre>
             </div>
           </div>
         </div>
         <div class="term-block">
-          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-gray-600">in</span> <span class="text-warp-success">~</span></div>
+          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~</span></div>
           <div class="prompt-line term-cmd" data-text="whoami --verbose"></div>
           <div class="term-output hidden-out mt-2">
             <p class="text-gray-300 leading-relaxed font-sans text-sm">
-              Building resilient AI-powered systems at scale. I specialize in the intersection of platform engineering and observability — designing distributed microservices and architecting high-availability infrastructure.
+              Building resilient AI-powered systems at scale. I specialize in the intersection of platform engineering and observability — designing distributed microservices and architecting high-availability infrastructure. Target: SRE / Senior Infrastructure + AI Engineering roles at Grafana Labs, Datadog, Harness, or Microsoft.
             </p>
           </div>
         </div>
         <!-- Easter Egg Terminal -->
-        <div class="mt-4 pt-3 border-t border-gray-800">
-          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-gray-600">in</span> <span class="text-warp-success">~</span></div>
+        <div class="mt-4 pt-3 border-t border-white/10">
+          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~</span></div>
           <div class="flex items-center gap-1">
             <span class="text-purple-400 font-bold">❯</span>
             <input id="easter-input" type="text" placeholder="type 'help' to explore..." spellcheck="false" autocomplete="off">
@@ -194,41 +272,41 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
       </div>
       <!-- UI VIEW -->
       <div class="view-content view-ui hidden-view p-8 font-sans h-full flex flex-col items-center justify-center text-center">
-        <img src="https://ui-avatars.com/api/?name=Aadarsh+Verma&background=6D28D9&color=fff&size=128&bold=true" class="w-24 h-24 rounded-full border-4 border-gray-800 mb-4 shadow-xl interactive" alt="Aadarsh">
+        <img src="https://ui-avatars.com/api/?name=Aadarsh+Verma&background=6D28D9&color=fff&size=128&bold=true" class="w-24 h-24 rounded-full border-4 border-white/10 mb-4 shadow-2xl interactive" alt="Aadarsh">
         <h2 class="text-2xl font-bold text-white mb-1">Aadarsh Verma</h2>
-        <p class="text-purple-400 font-medium mb-1">Software Engineer · SAP Labs</p>
-        <p class="text-gray-500 text-xs mb-4">Bengaluru, India</p>
-        <p class="text-gray-400 text-sm max-w-md mb-6 leading-relaxed">Building resilient AI-powered systems at enterprise scale. Passionate about observability, distributed systems, and platform engineering.</p>
+        <p class="text-purple-300 font-medium mb-1">Software Engineer · SAP Labs AI Core</p>
+        <p class="text-white/50 text-xs mb-4">Bengaluru, India · Open to SRE / SDE-2 roles</p>
+        <p class="text-white/80 text-sm max-w-md mb-6 leading-relaxed">Building resilient AI-powered systems at enterprise scale. Passionate about observability, distributed systems, and platform engineering.</p>
         <div class="flex gap-3">
-          <a href="https://github.com/CodeAadarsh" target="_blank" class="interactive bg-white/10 hover:bg-white/20 text-white px-4 py-2 rounded-lg transition flex items-center gap-2 text-sm"><i class="fa-brands fa-github"></i> GitHub</a>
-          <a href="https://linkedin.com/in/Ivadarsh" target="_blank" class="interactive bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 px-4 py-2 rounded-lg transition flex items-center gap-2 text-sm"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
+          <a href="https://github.com/CodeAadarsh" target="_blank" class="interactive bg-white/10 hover:bg-white/20 border border-white/10 text-white px-4 py-2 rounded-lg transition flex items-center gap-2 text-sm"><i class="fa-brands fa-github"></i> GitHub</a>
+          <a href="https://linkedin.com/in/Ivadarsh" target="_blank" class="interactive bg-blue-500/20 hover:bg-blue-500/40 border border-blue-500/30 text-blue-200 px-4 py-2 rounded-lg transition flex items-center gap-2 text-sm"><i class="fa-brands fa-linkedin"></i> LinkedIn</a>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ===== EXPERIENCE ===== -->
-  <div id="win-experience" class="window" style="width:660px;height:460px;left:16%;top:18%;z-index:20" data-id="experience" data-title="Experience" data-icon="fa-briefcase" data-color="blue">
+  <div id="win-experience" class="window glass-panel" style="width:660px;height:460px;left:16%;top:18%;z-index:20" data-id="experience" data-title="Experience" data-icon="fa-briefcase" data-color="blue">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
-        <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-yellow min-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-green max-btn interactive"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-yellow min-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-green max-btn interactive border border-black/20"></button>
       </div>
-      <div class="flex items-center gap-2 text-gray-400 text-xs font-sans font-semibold"><i class="fa-solid fa-briefcase"></i> experience.log</div>
+      <div class="flex items-center gap-2 text-white/70 text-xs font-sans font-semibold"><i class="fa-solid fa-briefcase"></i> experience.log</div>
       <div class="w-10"></div>
     </div>
-    <div class="flex-1 overflow-y-auto bg-mac-bg">
+    <div class="flex-1 bg-mac-bg">
       <div class="view-content view-terminal p-5 text-warp-text space-y-5">
         <div class="term-block">
-          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-gray-600">in</span> <span class="text-warp-success">~/work</span></div>
+          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~/work</span></div>
           <div class="prompt-line term-cmd" data-text="git log --pretty=format:'%s' --all"></div>
           <div class="term-output hidden-out mt-3 space-y-5">
             <div class="border-l-2 border-purple-500/60 pl-4 relative">
-              <div class="absolute -left-[5px] top-1 w-2 h-2 bg-purple-500 rounded-full"></div>
+              <div class="absolute -left-[5px] top-1 w-2 h-2 bg-purple-400 rounded-full shadow-[0_0_8px_#a855f7]"></div>
               <div class="flex items-start justify-between">
-                <h3 class="text-white font-bold font-sans">Software Engineer<span class="text-gray-500 text-sm font-mono font-normal ml-2">@ SAP AI Core Team, Business AI</span></h3>
-                <span class="text-xs text-gray-500 ml-4 shrink-0">June 2025 – Present</span>
+                <h3 class="text-white font-bold font-sans">Software Engineer<span class="text-white/60 text-sm font-mono font-normal ml-2">@ SAP AI Core Team, Business AI</span></h3>
+                <span class="text-xs text-white/50 ml-4 shrink-0">June 2025 – Present</span>
               </div>
               <ul class="mt-2 space-y-1 text-gray-300 text-sm font-sans">
                 <li><span class="text-warp-success mr-2">→</span>Built and productionized AI-powered Log Intelligence system using LGTM stack, K8s, Docker, and LLMs.</li>
@@ -238,10 +316,10 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
               </ul>
             </div>
             <div class="border-l-2 border-blue-500/60 pl-4 relative">
-              <div class="absolute -left-[5px] top-1 w-2 h-2 bg-blue-500 rounded-full"></div>
+              <div class="absolute -left-[5px] top-1 w-2 h-2 bg-blue-400 rounded-full shadow-[0_0_8px_#3b82f6]"></div>
               <div class="flex items-start justify-between">
-                <h3 class="text-white font-bold font-sans">Software Engineer<span class="text-gray-500 text-sm font-mono font-normal ml-2">@ SAP Industry Product Engineering - Automotive</span></h3>
-                <span class="text-xs text-gray-500 ml-4 shrink-0">Sep 2024 – May 2025</span>
+                <h3 class="text-white font-bold font-sans">Software Engineer<span class="text-white/60 text-sm font-mono font-normal ml-2">@ SAP Industry Product Engineering - Automotive</span></h3>
+                <span class="text-xs text-white/50 ml-4 shrink-0">Sep 2024 – May 2025</span>
               </div>
               <ul class="mt-2 space-y-1 text-gray-300 text-sm font-sans">
                 <li><span class="text-blue-400 mr-2">→</span>Enhanced VMS Extension Lead: Designed cloud-native extensions using CAP, SAP Cloud SDK, and UI5-enabled real-time data replication for SAP BTP Destination services across 50+ customer landscapes.</li>
@@ -249,10 +327,10 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
               </ul>
             </div>
             <div class="border-l-2 border-green-500/60 pl-4 relative">
-              <div class="absolute -left-[5px] top-1 w-2 h-2 bg-green-500 rounded-full"></div>
+              <div class="absolute -left-[5px] top-1 w-2 h-2 bg-green-400 rounded-full shadow-[0_0_8px_#10b981]"></div>
               <div class="flex items-start justify-between">
-                <h3 class="text-white font-bold font-sans">React Native Developer Intern<span class="text-gray-500 text-sm font-mono font-normal ml-2">@ Okie Dokie Solutions LLP</span></h3>
-                <span class="text-xs text-gray-500 ml-4 shrink-0">May 2023 – Nov 2023</span>
+                <h3 class="text-white font-bold font-sans">React Native Developer Intern<span class="text-white/60 text-sm font-mono font-normal ml-2">@ Okie Dokie Solutions LLP</span></h3>
+                <span class="text-xs text-white/50 ml-4 shrink-0">May 2023 – Nov 2023</span>
               </div>
               <ul class="mt-2 space-y-1 text-gray-300 text-sm font-sans">
                 <li><span class="text-green-400 mr-2">→</span>Sole frontend developer for magazine e-commerce portal using React Native Web - shipped in 3 months, now serving 15,000+ monthly active users.</li>
@@ -263,28 +341,28 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
         </div>
       </div>
       <div class="view-content view-ui hidden-view p-8 font-sans">
-        <h2 class="text-2xl font-bold text-white mb-6 border-b border-gray-800 pb-2">Experience Timeline</h2>
+        <h2 class="text-2xl font-bold text-white mb-6 border-b border-white/10 pb-2">Experience Timeline</h2>
         <div class="space-y-4">
-          <div class="bg-gray-800/30 p-5 rounded-xl border border-gray-700/50 hover:border-purple-500/50 transition">
+          <div class="bg-white/5 p-5 rounded-xl border border-white/10 hover:border-purple-500/50 transition shadow-lg">
             <div class="flex justify-between items-start mb-2">
-              <div><h3 class="text-base font-bold text-white">Software Engineer</h3><p class="text-purple-400 text-sm">SAP AI Core Team, Business AI</p></div>
-              <span class="bg-purple-500/10 text-purple-400 px-3 py-1 rounded-full text-xs border border-purple-500/20">June 2025 – Present</span>
+              <div><h3 class="text-base font-bold text-white">Software Engineer</h3><p class="text-purple-300 text-sm">SAP AI Core Team, Business AI</p></div>
+              <span class="bg-purple-500/20 text-purple-200 px-3 py-1 rounded-full text-xs border border-purple-500/30">June 2025 – Present</span>
             </div>
-            <p class="text-gray-400 text-sm leading-relaxed">Production AI Log Intelligence on LGTM stack. Processes 100GB+ logs daily across 50+ AI Launchpad deployments. Reduced triage time by 38% and debug time by 45%. Integrated into SAP AI Launchpad UI.</p>
+            <p class="text-white/70 text-sm leading-relaxed">Production AI Log Intelligence on LGTM stack. Processes 100GB+ logs daily across 50+ AI Launchpad deployments. Reduced triage time by 38% and debug time by 45%. Integrated into SAP AI Launchpad UI.</p>
           </div>
-          <div class="bg-gray-800/30 p-5 rounded-xl border border-gray-700/50 hover:border-blue-500/50 transition">
+          <div class="bg-white/5 p-5 rounded-xl border border-white/10 hover:border-blue-500/50 transition shadow-lg">
             <div class="flex justify-between items-start mb-2">
-              <div><h3 class="text-base font-bold text-white">Software Engineer</h3><p class="text-blue-400 text-sm">SAP Industry Product Eng - Automotive</p></div>
-              <span class="bg-blue-500/10 text-blue-400 px-3 py-1 rounded-full text-xs border border-blue-500/20">Sep 2024 – May 2025</span>
+              <div><h3 class="text-base font-bold text-white">Software Engineer</h3><p class="text-blue-300 text-sm">SAP Industry Product Eng - Automotive</p></div>
+              <span class="bg-blue-500/20 text-blue-200 px-3 py-1 rounded-full text-xs border border-blue-500/30">Sep 2024 – May 2025</span>
             </div>
-            <p class="text-gray-400 text-sm leading-relaxed">Enhanced VMS Extension Lead: Designed cloud-native extensions using CAP, SAP Cloud SDK, and UI5-enabled real-time data replication across 50+ landscapes. Built POC handling 10,000+ daily events.</p>
+            <p class="text-white/70 text-sm leading-relaxed">Enhanced VMS Extension Lead: Designed cloud-native extensions using CAP, SAP Cloud SDK, and UI5-enabled real-time data replication across 50+ landscapes. Built POC handling 10,000+ daily events.</p>
           </div>
-          <div class="bg-gray-800/30 p-5 rounded-xl border border-gray-700/50 hover:border-green-500/50 transition">
+          <div class="bg-white/5 p-5 rounded-xl border border-white/10 hover:border-green-500/50 transition shadow-lg">
             <div class="flex justify-between items-start mb-2">
-              <div><h3 class="text-base font-bold text-white">React Native Developer Intern</h3><p class="text-green-400 text-sm">Okie Dokie Solutions LLP</p></div>
-              <span class="bg-green-500/10 text-green-400 px-3 py-1 rounded-full text-xs border border-green-500/20">May 2023 – Nov 2023</span>
+              <div><h3 class="text-base font-bold text-white">React Native Developer Intern</h3><p class="text-green-300 text-sm">Okie Dokie Solutions LLP</p></div>
+              <span class="bg-green-500/20 text-green-200 px-3 py-1 rounded-full text-xs border border-green-500/30">May 2023 – Nov 2023</span>
             </div>
-            <p class="text-gray-400 text-sm leading-relaxed">Built magazine e-commerce portal serving 15,000+ monthly active users. Reduced admin operations time by 60%.</p>
+            <p class="text-white/70 text-sm leading-relaxed">Built magazine e-commerce portal serving 15,000+ monthly active users. Reduced admin operations time by 60%.</p>
           </div>
         </div>
       </div>
@@ -292,50 +370,50 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
   </div>
 
   <!-- ===== PROJECTS ===== -->
-  <div id="win-projects" class="window" style="width:630px;height:510px;left:30%;top:6%;z-index:30" data-id="projects" data-title="Projects" data-icon="fa-code" data-color="green">
+  <div id="win-projects" class="window glass-panel" style="width:630px;height:510px;left:30%;top:6%;z-index:30" data-id="projects" data-title="Projects" data-icon="fa-code" data-color="green">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
-        <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-yellow min-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-green max-btn interactive"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-yellow min-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-green max-btn interactive border border-black/20"></button>
       </div>
-      <div class="flex items-center gap-2 text-gray-400 text-xs font-sans font-semibold">
+      <div class="flex items-center gap-2 text-white/70 text-xs font-sans font-semibold">
         <i class="fa-solid fa-code"></i> projects/
         <span id="gh-loading"><i class="fa-solid fa-circle-notch spin text-[10px]"></i></span>
       </div>
       <div class="w-10"></div>
     </div>
-    <div class="flex-1 overflow-y-auto bg-mac-bg">
+    <div class="flex-1 bg-mac-bg">
       <div class="view-content view-terminal p-5 text-warp-text space-y-5">
         <div class="term-block">
-          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-gray-600">in</span> <span class="text-warp-success">~/projects</span></div>
+          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~/projects</span></div>
           <div class="prompt-line term-cmd" data-text="ls -la --tree --github"></div>
           <div class="term-output hidden-out mt-3">
             <div id="gh-term-list" class="font-mono text-sm space-y-3 text-gray-300">
-              <div class="hover:bg-warp-highlight p-2 rounded transition interactive"><div class="text-warp-path font-bold mb-1"><i class="fa-regular fa-folder-open mr-1"></i> ai_log_analyzer/</div><div class="pl-5 border-l border-gray-700 ml-1 py-1 text-gray-400">Engineered AI-powered log analysis platform using Node.js, LGTM stack, and LLM APIs to parse 1GB+ logs and detect anomalies across K8s pods - deployed on self-managed K8s cluster, reducing debug time by 40% in production simulations.</div></div>
-              <div class="hover:bg-warp-highlight p-2 rounded transition interactive"><div class="text-warp-path font-bold mb-1"><i class="fa-regular fa-folder-open mr-1"></i> vms_simulator/</div><div class="pl-5 border-l border-gray-700 ml-1 py-1 text-gray-400">Developed distributed automotive API simulator using Docker and Kubernetes, generating 10K+ events/day with 99.9% uptime - designed for load testing and HA validation of VMS integrations.</div></div>
-              <div class="hover:bg-warp-highlight p-2 rounded transition interactive"><div class="text-warp-path font-bold mb-1"><i class="fa-regular fa-folder-open mr-1"></i> react_native_erp/</div><div class="pl-5 border-l border-gray-700 ml-1 py-1 text-gray-400">Built full-stack cross-platform ERP system with React Native, Node.js backend, and CI/CD via GitHub Actions - architected RESTful APIs handling 5K+ concurrent simulated users with <200ms P95 latency.</div></div>
+              <div class="hover:bg-white/5 p-2 rounded transition interactive"><div class="text-warp-path font-bold mb-1"><i class="fa-regular fa-folder-open mr-1"></i> ai_log_analyzer/</div><div class="pl-5 border-l border-white/10 ml-1 py-1 text-white/70">Engineered AI-powered log analysis platform using Node.js, LGTM stack, and LLM APIs to parse 1GB+ logs and detect anomalies across K8s pods - deployed on self-managed K8s cluster, reducing debug time by 40% in production simulations.</div></div>
+              <div class="hover:bg-white/5 p-2 rounded transition interactive"><div class="text-warp-path font-bold mb-1"><i class="fa-regular fa-folder-open mr-1"></i> vms_simulator/</div><div class="pl-5 border-l border-white/10 ml-1 py-1 text-white/70">Developed distributed automotive API simulator using Docker and Kubernetes, generating 10K+ events/day with 99.9% uptime - designed for load testing and HA validation of VMS integrations.</div></div>
+              <div class="hover:bg-white/5 p-2 rounded transition interactive"><div class="text-warp-path font-bold mb-1"><i class="fa-regular fa-folder-open mr-1"></i> react_native_erp/</div><div class="pl-5 border-l border-white/10 ml-1 py-1 text-white/70">Built full-stack cross-platform ERP system with React Native, Node.js backend, and CI/CD via GitHub Actions - architected RESTful APIs handling 5K+ concurrent simulated users with <200ms P95 latency.</div></div>
             </div>
           </div>
         </div>
       </div>
       <div class="view-content view-ui hidden-view p-6 font-sans">
-        <h2 class="text-2xl font-bold text-white mb-5 border-b border-gray-800 pb-2">Featured Projects</h2>
+        <h2 class="text-2xl font-bold text-white mb-5 border-b border-white/10 pb-2">Featured Projects</h2>
         <div id="gh-ui-grid" class="grid grid-cols-1 gap-4">
-          <div class="bg-gradient-to-br from-gray-800/40 to-gray-900/40 p-5 rounded-xl border border-gray-700/50">
+          <div class="bg-white/5 p-5 rounded-xl border border-white/10 hover:border-purple-500/50 transition shadow-lg">
             <h3 class="text-base font-bold text-white mb-2"><i class="fa-solid fa-microchip text-purple-400 mr-2"></i>AI Log Analyzer</h3>
-            <p class="text-gray-400 text-sm mb-3 leading-relaxed">Engineered AI-powered log analysis platform using Node.js, LGTM stack, and LLM APIs to parse 1GB+ logs and detect anomalies across K8s pods. Reduced debug time by 40% in production simulations.</p>
-            <div class="flex gap-2 flex-wrap"><span class="bg-gray-800 text-gray-300 px-2 py-0.5 rounded text-xs">Node.js</span><span class="bg-gray-800 text-gray-300 px-2 py-0.5 rounded text-xs">LGTM Stack</span><span class="bg-gray-800 text-gray-300 px-2 py-0.5 rounded text-xs">LLM APIs</span><span class="bg-gray-800 text-gray-300 px-2 py-0.5 rounded text-xs">K8s</span></div>
+            <p class="text-white/70 text-sm mb-3 leading-relaxed">Engineered AI-powered log analysis platform using Node.js, LGTM stack, and LLM APIs to parse 1GB+ logs and detect anomalies across K8s pods. Reduced debug time by 40% in production simulations.</p>
+            <div class="flex gap-2 flex-wrap"><span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">Node.js</span><span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">LGTM Stack</span><span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">LLM APIs</span><span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">K8s</span></div>
           </div>
-          <div class="bg-gradient-to-br from-gray-800/40 to-gray-900/40 p-5 rounded-xl border border-gray-700/50">
+          <div class="bg-white/5 p-5 rounded-xl border border-white/10 hover:border-blue-500/50 transition shadow-lg">
             <h3 class="text-base font-bold text-white mb-2"><i class="fa-solid fa-car text-blue-400 mr-2"></i>Scalable VMS Simulator</h3>
-            <p class="text-gray-400 text-sm mb-3 leading-relaxed">Distributed automotive API simulator generating 10K+ events/day with 99.9% uptime. Designed for load testing and HA validation of VMS integrations.</p>
-            <div class="flex gap-2 flex-wrap"><span class="bg-gray-800 text-gray-300 px-2 py-0.5 rounded text-xs">Docker</span><span class="bg-gray-800 text-gray-300 px-2 py-0.5 rounded text-xs">Kubernetes</span></div>
+            <p class="text-white/70 text-sm mb-3 leading-relaxed">Distributed automotive API simulator generating 10K+ events/day with 99.9% uptime. Designed for load testing and HA validation of VMS integrations.</p>
+            <div class="flex gap-2 flex-wrap"><span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">Docker</span><span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">Kubernetes</span></div>
           </div>
-          <div class="bg-gradient-to-br from-gray-800/40 to-gray-900/40 p-5 rounded-xl border border-gray-700/50">
+          <div class="bg-white/5 p-5 rounded-xl border border-white/10 hover:border-green-500/50 transition shadow-lg">
             <h3 class="text-base font-bold text-white mb-2"><i class="fa-solid fa-mobile-screen text-green-400 mr-2"></i>React Native ERP App</h3>
-            <p class="text-gray-400 text-sm mb-3 leading-relaxed">Full-stack cross-platform ERP system. Architected RESTful APIs handling 5K+ concurrent simulated users with <200ms P95 latency.</p>
-            <div class="flex gap-2 flex-wrap"><span class="bg-gray-800 text-gray-300 px-2 py-0.5 rounded text-xs">React Native</span><span class="bg-gray-800 text-gray-300 px-2 py-0.5 rounded text-xs">Node.js</span><span class="bg-gray-800 text-gray-300 px-2 py-0.5 rounded text-xs">GitHub Actions</span></div>
+            <p class="text-white/70 text-sm mb-3 leading-relaxed">Full-stack cross-platform ERP system. Architected RESTful APIs handling 5K+ concurrent simulated users with <200ms P95 latency.</p>
+            <div class="flex gap-2 flex-wrap"><span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">React Native</span><span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">Node.js</span><span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">GitHub Actions</span></div>
           </div>
         </div>
       </div>
@@ -343,20 +421,20 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
   </div>
 
   <!-- ===== SKILLS ===== -->
-  <div id="win-skills" class="window" style="width:460px;height:370px;left:56%;top:12%;z-index:40" data-id="skills" data-title="Skills" data-icon="fa-bolt" data-color="yellow">
+  <div id="win-skills" class="window glass-panel" style="width:460px;height:370px;left:56%;top:12%;z-index:40" data-id="skills" data-title="Skills" data-icon="fa-bolt" data-color="yellow">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
-        <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-yellow min-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-green max-btn interactive"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-yellow min-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-green max-btn interactive border border-black/20"></button>
       </div>
-      <div class="flex items-center gap-2 text-gray-400 text-xs font-sans font-semibold"><i class="fa-solid fa-bolt"></i> skills.sh</div>
+      <div class="flex items-center gap-2 text-white/70 text-xs font-sans font-semibold"><i class="fa-solid fa-bolt"></i> skills.sh</div>
       <div class="w-10"></div>
     </div>
-    <div class="flex-1 overflow-y-auto bg-mac-bg">
+    <div class="flex-1 bg-mac-bg">
       <div class="view-content view-terminal p-5 text-warp-text space-y-4">
         <div class="term-block">
-          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-gray-600">in</span> <span class="text-warp-success">~</span></div>
+          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~</span></div>
           <div class="prompt-line term-cmd" data-text="neofetch --skills-only"></div>
           <div class="term-output hidden-out mt-3 font-mono text-sm space-y-2">
             <div class="flex"><span class="text-purple-400 w-32 shrink-0">Languages</span><span class="text-gray-300">Java · Python · C++ · JavaScript</span></div>
@@ -365,49 +443,49 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
             <div class="flex"><span class="text-yellow-400 w-32 shrink-0">Observability</span><span class="text-gray-300">LGTM Stack (Loki, Grafana, Tempo, Mimir) · Dynatrace</span></div>
             <div class="flex"><span class="text-cyan-400 w-32 shrink-0">Other</span><span class="text-gray-300">SAP BTP · SAP UI5 · SAP Fiori · SAP Cloud SDK</span></div>
             <div class="flex"><span class="text-pink-400 w-32 shrink-0">Databases</span><span class="text-gray-300">PostgreSQL · MySQL · MongoDB</span></div>
-            <div class="mt-3 pt-3 border-t border-gray-800 text-xs text-gray-500">
-              <span class="text-warp-success">OS</span>: AadarshOS · <span class="text-warp-success">Shell</span>: zsh · <span class="text-warp-success">Editor</span>: VS Code · <span class="text-warp-success">Terminal</span>: Warp
+            <div class="mt-3 pt-3 border-t border-white/10 text-xs text-white/50">
+              <span class="text-warp-success">OS</span>: Portfolio · <span class="text-warp-success">Shell</span>: zsh · <span class="text-warp-success">Editor</span>: VS Code · <span class="text-warp-success">Terminal</span>: Warp
             </div>
           </div>
         </div>
       </div>
       <div class="view-content view-ui hidden-view p-6 font-sans">
-        <h2 class="text-xl font-bold text-white mb-4 border-b border-gray-800 pb-2">Technical Arsenal</h2>
+        <h2 class="text-xl font-bold text-white mb-4 border-b border-white/10 pb-2">Technical Arsenal</h2>
         <div class="flex flex-wrap gap-2">
-          <span class="bg-purple-600/20 border border-purple-500/30 text-purple-300 px-3 py-1.5 rounded-lg text-xs">Java</span>
-          <span class="bg-purple-600/20 border border-purple-500/30 text-purple-300 px-3 py-1.5 rounded-lg text-xs">Python</span>
-          <span class="bg-purple-600/20 border border-purple-500/30 text-purple-300 px-3 py-1.5 rounded-lg text-xs">C++</span>
-          <span class="bg-purple-600/20 border border-purple-500/30 text-purple-300 px-3 py-1.5 rounded-lg text-xs">JavaScript</span>
-          <span class="bg-blue-600/20 border border-blue-500/30 text-blue-300 px-3 py-1.5 rounded-lg text-xs">Node.js</span>
-          <span class="bg-blue-600/20 border border-blue-500/30 text-blue-300 px-3 py-1.5 rounded-lg text-xs">Spring Boot</span>
-          <span class="bg-green-600/20 border border-green-500/30 text-green-300 px-3 py-1.5 rounded-lg text-xs">Kubernetes</span>
-          <span class="bg-green-600/20 border border-green-500/30 text-green-300 px-3 py-1.5 rounded-lg text-xs">Docker</span>
-          <span class="bg-green-600/20 border border-green-500/30 text-green-300 px-3 py-1.5 rounded-lg text-xs">GitHub Actions</span>
-          <span class="bg-yellow-600/20 border border-yellow-500/30 text-yellow-300 px-3 py-1.5 rounded-lg text-xs">LGTM Stack</span>
-          <span class="bg-cyan-600/20 border border-cyan-500/30 text-cyan-300 px-3 py-1.5 rounded-lg text-xs">SAP BTP</span>
-          <span class="bg-cyan-600/20 border border-cyan-500/30 text-cyan-300 px-3 py-1.5 rounded-lg text-xs">CAP / UI5</span>
-          <span class="bg-pink-600/20 border border-pink-500/30 text-pink-300 px-3 py-1.5 rounded-lg text-xs">PostgreSQL</span>
-          <span class="bg-pink-600/20 border border-pink-500/30 text-pink-300 px-3 py-1.5 rounded-lg text-xs">MongoDB</span>
+          <span class="bg-purple-600/20 border border-purple-500/30 text-purple-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">Java</span>
+          <span class="bg-purple-600/20 border border-purple-500/30 text-purple-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">Python</span>
+          <span class="bg-purple-600/20 border border-purple-500/30 text-purple-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">C++</span>
+          <span class="bg-purple-600/20 border border-purple-500/30 text-purple-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">JavaScript</span>
+          <span class="bg-blue-600/20 border border-blue-500/30 text-blue-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">Node.js</span>
+          <span class="bg-blue-600/20 border border-blue-500/30 text-blue-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">Spring Boot</span>
+          <span class="bg-green-600/20 border border-green-500/30 text-green-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">Kubernetes</span>
+          <span class="bg-green-600/20 border border-green-500/30 text-green-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">Docker</span>
+          <span class="bg-green-600/20 border border-green-500/30 text-green-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">GitHub Actions</span>
+          <span class="bg-yellow-600/20 border border-yellow-500/30 text-yellow-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">LGTM Stack</span>
+          <span class="bg-cyan-600/20 border border-cyan-500/30 text-cyan-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">SAP BTP</span>
+          <span class="bg-cyan-600/20 border border-cyan-500/30 text-cyan-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">CAP / UI5</span>
+          <span class="bg-pink-600/20 border border-pink-500/30 text-pink-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">PostgreSQL</span>
+          <span class="bg-pink-600/20 border border-pink-500/30 text-pink-200 px-3 py-1.5 rounded-lg text-xs shadow-sm">MongoDB</span>
         </div>
       </div>
     </div>
   </div>
 
   <!-- ===== EDUCATION ===== -->
-  <div id="win-education" class="window" style="width:550px;height:360px;left:3%;top:58%;z-index:50" data-id="education" data-title="Education" data-icon="fa-graduation-cap" data-color="teal">
+  <div id="win-education" class="window glass-panel" style="width:550px;height:360px;left:3%;top:58%;z-index:50" data-id="education" data-title="Education" data-icon="fa-graduation-cap" data-color="teal">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
-        <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-yellow min-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-green max-btn interactive"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-yellow min-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-green max-btn interactive border border-black/20"></button>
       </div>
-      <div class="flex items-center gap-2 text-gray-400 text-xs font-sans font-semibold"><i class="fa-solid fa-graduation-cap"></i> education.md</div>
+      <div class="flex items-center gap-2 text-white/70 text-xs font-sans font-semibold"><i class="fa-solid fa-graduation-cap"></i> education.md</div>
       <div class="w-10"></div>
     </div>
-    <div class="flex-1 overflow-y-auto bg-mac-bg">
+    <div class="flex-1 bg-mac-bg">
       <div class="view-content view-terminal p-5 text-warp-text space-y-5">
         <div class="term-block">
-          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-gray-600">in</span> <span class="text-warp-success">~/education</span></div>
+          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~/education</span></div>
           <div class="prompt-line term-cmd" data-text="cat degrees.md"></div>
           <div class="term-output hidden-out mt-3 space-y-4">
             <div class="bg-warp-highlight p-4 rounded-lg border border-mac-border">
@@ -431,21 +509,21 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
         </div>
       </div>
       <div class="view-content view-ui hidden-view p-6 font-sans">
-        <h2 class="text-xl font-bold text-white mb-5 border-b border-gray-800 pb-2">Education</h2>
+        <h2 class="text-xl font-bold text-white mb-5 border-b border-white/10 pb-2">Education</h2>
         <div class="space-y-4">
-          <div class="bg-gray-800/30 p-4 rounded-xl border border-teal-500/20 hover:border-teal-500/50 transition">
+          <div class="bg-white/5 p-4 rounded-xl border border-teal-500/30 hover:border-teal-500/60 transition shadow-lg">
             <div class="flex items-center gap-3 mb-2">
-              <div class="w-10 h-10 rounded-lg bg-teal-500/20 flex items-center justify-center"><i class="fa-solid fa-graduation-cap text-teal-400"></i></div>
-              <div><h3 class="text-white font-semibold text-sm">M.Tech Software Engineering</h3><p class="text-teal-400 text-xs">Birla Institute of Technology, Pilani · August 2024–Present</p></div>
+              <div class="w-10 h-10 rounded-lg bg-teal-500/20 flex items-center justify-center border border-teal-500/20"><i class="fa-solid fa-graduation-cap text-teal-300"></i></div>
+              <div><h3 class="text-white font-semibold text-sm">M.Tech Software Engineering</h3><p class="text-teal-300 text-xs">Birla Institute of Technology, Pilani · August 2024–Present</p></div>
             </div>
-            <p class="text-gray-400 text-xs leading-relaxed">In progress.</p>
+            <p class="text-white/70 text-xs leading-relaxed">In progress.</p>
           </div>
-          <div class="bg-gray-800/30 p-4 rounded-xl border border-blue-500/20 hover:border-blue-500/50 transition">
+          <div class="bg-white/5 p-4 rounded-xl border border-blue-500/30 hover:border-blue-500/60 transition shadow-lg">
             <div class="flex items-center gap-3 mb-2">
-              <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center"><i class="fa-solid fa-book text-blue-400"></i></div>
-              <div><h3 class="text-white font-semibold text-sm">BCA, Computer Science</h3><p class="text-blue-400 text-xs">Amity University Jaipur · July 2021–July 2024</p></div>
+              <div class="w-10 h-10 rounded-lg bg-blue-500/20 flex items-center justify-center border border-blue-500/20"><i class="fa-solid fa-book text-blue-300"></i></div>
+              <div><h3 class="text-white font-semibold text-sm">BCA, Computer Science</h3><p class="text-blue-300 text-xs">Amity University Jaipur · July 2021–July 2024</p></div>
             </div>
-            <p class="text-gray-400 text-xs leading-relaxed">Coursework: Operating Systems, Object Oriented Programming, Relational Database Management Systems, Computer Networks, Data Structures and Algorithms. CGPA: 8.47</p>
+            <p class="text-white/70 text-xs leading-relaxed">Coursework: Operating Systems, Object Oriented Programming, Relational Database Management Systems, Computer Networks, Data Structures and Algorithms. CGPA: 8.47</p>
           </div>
         </div>
       </div>
@@ -453,78 +531,79 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
   </div>
 
   <!-- ===== CONTACT ===== -->
-  <div id="win-contact" class="window" style="width:510px;height:370px;left:50%;top:52%;z-index:60" data-id="contact" data-title="Contact" data-icon="fa-envelope" data-color="pink">
+  <div id="win-contact" class="window glass-panel" style="width:510px;height:370px;left:50%;top:52%;z-index:60" data-id="contact" data-title="Contact" data-icon="fa-envelope" data-color="pink">
     <div class="window-header flex items-center justify-between px-4 py-2.5">
       <div class="flex gap-2">
-        <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-yellow min-btn interactive"></button>
-        <button class="w-3 h-3 rounded-full bg-mac-green max-btn interactive"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-red close-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-yellow min-btn interactive border border-black/20"></button>
+        <button class="w-3 h-3 rounded-full bg-mac-green max-btn interactive border border-black/20"></button>
       </div>
-      <div class="flex items-center gap-2 text-gray-400 text-xs font-sans font-semibold"><i class="fa-solid fa-envelope"></i> contact.sh</div>
+      <div class="flex items-center gap-2 text-white/70 text-xs font-sans font-semibold"><i class="fa-solid fa-envelope"></i> contact.sh</div>
       <div class="w-10"></div>
     </div>
-    <div class="flex-1 overflow-y-auto bg-mac-bg">
+    <div class="flex-1 bg-mac-bg">
       <div class="view-content view-terminal p-5 text-warp-text space-y-5">
         <div class="term-block">
-          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-gray-600">in</span> <span class="text-warp-success">~</span></div>
+          <div class="text-xs font-sans mb-1"><span class="text-warp-path">aadarsh@macbook</span> <span class="text-white/50">in</span> <span class="text-warp-success">~</span></div>
           <div class="prompt-line term-cmd" data-text="./send_mail.sh --interactive"></div>
           <div class="term-output hidden-out mt-3 space-y-3">
             <div class="text-green-400 text-xs font-sans">// Available contact channels — click to connect</div>
-            <a href="mailto:aadarsh24lv@gmail.com" class="interactive flex items-center gap-3 hover:bg-warp-highlight p-2 rounded transition group">
+            <a href="mailto:aadarsh24lv@gmail.com" class="interactive flex items-center gap-3 hover:bg-white/5 p-2 rounded transition group">
               <span class="text-pink-400 w-6"><i class="fa-solid fa-envelope"></i></span>
               <span class="text-gray-300 group-hover:text-white">aadarsh24lv@gmail.com</span>
-              <span class="text-gray-600 text-xs ml-auto">email</span>
+              <span class="text-gray-500 text-xs ml-auto">email</span>
             </a>
-            <a href="tel:+919520457941" class="interactive flex items-center gap-3 hover:bg-warp-highlight p-2 rounded transition group">
+            <a href="tel:+919520457941" class="interactive flex items-center gap-3 hover:bg-white/5 p-2 rounded transition group">
               <span class="text-green-400 w-6"><i class="fa-solid fa-phone"></i></span>
               <span class="text-gray-300 group-hover:text-white">+91 9520457941</span>
-              <span class="text-gray-600 text-xs ml-auto">phone</span>
+              <span class="text-gray-500 text-xs ml-auto">phone</span>
             </a>
-            <a href="https://github.com/CodeAadarsh" target="_blank" class="interactive flex items-center gap-3 hover:bg-warp-highlight p-2 rounded transition group">
+            <a href="https://github.com/CodeAadarsh" target="_blank" class="interactive flex items-center gap-3 hover:bg-white/5 p-2 rounded transition group">
               <span class="text-gray-300 w-6"><i class="fa-brands fa-github"></i></span>
               <span class="text-gray-300 group-hover:text-white">github.com/CodeAadarsh</span>
-              <span class="text-gray-600 text-xs ml-auto">code</span>
+              <span class="text-gray-500 text-xs ml-auto">code</span>
             </a>
-            <a href="https://linkedin.com/in/Ivadarsh" target="_blank" class="interactive flex items-center gap-3 hover:bg-warp-highlight p-2 rounded transition group">
+            <a href="https://linkedin.com/in/Ivadarsh" target="_blank" class="interactive flex items-center gap-3 hover:bg-white/5 p-2 rounded transition group">
               <span class="text-blue-400 w-6"><i class="fa-brands fa-linkedin"></i></span>
               <span class="text-gray-300 group-hover:text-white">linkedin.com/in/Ivadarsh</span>
-              <span class="text-gray-600 text-xs ml-auto">network</span>
+              <span class="text-gray-500 text-xs ml-auto">network</span>
             </a>
-            <a href="https://twitter.com/Aadarshcodes" target="_blank" class="interactive flex items-center gap-3 hover:bg-warp-highlight p-2 rounded transition group">
+            <a href="https://twitter.com/Aadarshcodes" target="_blank" class="interactive flex items-center gap-3 hover:bg-white/5 p-2 rounded transition group">
               <span class="text-blue-300 w-6"><i class="fa-brands fa-twitter"></i></span>
               <span class="text-gray-300 group-hover:text-white">twitter.com/Aadarshcodes</span>
-              <span class="text-gray-600 text-xs ml-auto">social</span>
+              <span class="text-gray-500 text-xs ml-auto">social</span>
             </a>
             <div class="flex items-center gap-3 p-2">
               <span class="text-yellow-400 w-6"><i class="fa-solid fa-location-dot"></i></span>
               <span class="text-gray-400">Bengaluru, Karnataka, India</span>
-              <span class="text-gray-600 text-xs ml-auto">location</span>
+              <span class="text-gray-500 text-xs ml-auto">location</span>
             </div>
           </div>
         </div>
       </div>
       <div class="view-content view-ui hidden-view p-6 font-sans">
         <h2 class="text-xl font-bold text-white mb-2">Get In Touch</h2>
+        <p class="text-white/60 text-sm mb-5">Open to SRE / SDE-2 / Senior infrastructure + AI engineering roles. Let's connect.</p>
         <div class="space-y-3">
-          <a href="mailto:aadarsh24lv@gmail.com" class="interactive flex items-center gap-3 bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/20 px-4 py-3 rounded-xl transition">
-            <div class="w-9 h-9 bg-pink-500/20 rounded-lg flex items-center justify-center"><i class="fa-solid fa-envelope text-pink-400 text-sm"></i></div>
-            <div><div class="text-white text-sm font-semibold">Email</div><div class="text-gray-400 text-xs">aadarsh24lv@gmail.com</div></div>
-            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-gray-600 text-xs"></i>
+          <a href="mailto:aadarsh24lv@gmail.com" class="interactive flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-3 rounded-xl transition shadow-lg">
+            <div class="w-9 h-9 bg-pink-500/20 border border-pink-500/30 rounded-lg flex items-center justify-center"><i class="fa-solid fa-envelope text-pink-300 text-sm"></i></div>
+            <div><div class="text-white text-sm font-semibold">Email</div><div class="text-white/60 text-xs">aadarsh24lv@gmail.com</div></div>
+            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-white/40 text-xs"></i>
           </a>
-          <a href="tel:+919520457941" class="interactive flex items-center gap-3 bg-green-500/10 hover:bg-green-500/20 border border-green-500/20 px-4 py-3 rounded-xl transition">
-            <div class="w-9 h-9 bg-green-500/20 rounded-lg flex items-center justify-center"><i class="fa-solid fa-phone text-green-400 text-sm"></i></div>
-            <div><div class="text-white text-sm font-semibold">Phone</div><div class="text-gray-400 text-xs">+91 9520457941</div></div>
-            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-gray-600 text-xs"></i>
+          <a href="tel:+919520457941" class="interactive flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-3 rounded-xl transition shadow-lg">
+            <div class="w-9 h-9 bg-green-500/20 border border-green-500/30 rounded-lg flex items-center justify-center"><i class="fa-solid fa-phone text-green-300 text-sm"></i></div>
+            <div><div class="text-white text-sm font-semibold">Phone</div><div class="text-white/60 text-xs">+91 9520457941</div></div>
+            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-white/40 text-xs"></i>
           </a>
-          <a href="https://github.com/CodeAadarsh" target="_blank" class="interactive flex items-center gap-3 bg-gray-800/50 hover:bg-gray-800/80 border border-gray-700/50 px-4 py-3 rounded-xl transition">
-            <div class="w-9 h-9 bg-gray-700/50 rounded-lg flex items-center justify-center"><i class="fa-brands fa-github text-gray-300 text-sm"></i></div>
-            <div><div class="text-white text-sm font-semibold">GitHub</div><div class="text-gray-400 text-xs">CodeAadarsh</div></div>
-            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-gray-600 text-xs"></i>
+          <a href="https://github.com/CodeAadarsh" target="_blank" class="interactive flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-3 rounded-xl transition shadow-lg">
+            <div class="w-9 h-9 bg-gray-500/30 border border-gray-500/40 rounded-lg flex items-center justify-center"><i class="fa-brands fa-github text-white text-sm"></i></div>
+            <div><div class="text-white text-sm font-semibold">GitHub</div><div class="text-white/60 text-xs">CodeAadarsh</div></div>
+            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-white/40 text-xs"></i>
           </a>
-          <a href="https://linkedin.com/in/Ivadarsh" target="_blank" class="interactive flex items-center gap-3 bg-blue-600/10 hover:bg-blue-600/20 border border-blue-500/20 px-4 py-3 rounded-xl transition">
-            <div class="w-9 h-9 bg-blue-500/20 rounded-lg flex items-center justify-center"><i class="fa-brands fa-linkedin text-blue-400 text-sm"></i></div>
-            <div><div class="text-white text-sm font-semibold">LinkedIn</div><div class="text-gray-400 text-xs">Ivadarsh</div></div>
-            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-gray-600 text-xs"></i>
+          <a href="https://linkedin.com/in/Ivadarsh" target="_blank" class="interactive flex items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 px-4 py-3 rounded-xl transition shadow-lg">
+            <div class="w-9 h-9 bg-blue-500/20 border border-blue-500/30 rounded-lg flex items-center justify-center"><i class="fa-brands fa-linkedin text-blue-300 text-sm"></i></div>
+            <div><div class="text-white text-sm font-semibold">LinkedIn</div><div class="text-white/60 text-xs">Ivadarsh</div></div>
+            <i class="fa-solid fa-arrow-up-right-from-square ml-auto text-white/40 text-xs"></i>
           </a>
         </div>
       </div>
@@ -532,102 +611,139 @@ body{background:#0A0A0C;background-image:radial-gradient(circle at 50% 0%,#1a1a2
   </div>
 
   <!-- ======== DOCK ======== -->
-  <div class="fixed bottom-4 left-1/2 -translate-x-1/2 px-3 py-2 rounded-2xl shadow-2xl z-[1000] flex items-end gap-2 h-[70px]" style="background:rgba(20,21,23,0.85);backdrop-filter:blur(20px);border:1px solid #2E3036">
+  <div class="glass-panel fixed bottom-4 left-1/2 -translate-x-1/2 px-3 py-2 rounded-2xl shadow-2xl z-[1000] flex items-end gap-2 h-[70px]">
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-gray-700">About Me <span class="text-gray-500">⌘1</span></div>
-      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white text-xl shadow-lg" data-target="about"><i class="fa-solid fa-user"></i></button>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">About Me <span class="text-white/50">⌘1</span></div>
+      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white text-xl" data-target="about"><i class="fa-solid fa-user"></i></button>
     </div>
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-gray-700">Experience <span class="text-gray-500">⌘2</span></div>
-      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white text-xl shadow-lg" data-target="experience"><i class="fa-solid fa-briefcase"></i></button>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Experience <span class="text-white/50">⌘2</span></div>
+      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center text-white text-xl" data-target="experience"><i class="fa-solid fa-briefcase"></i></button>
     </div>
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-gray-700">Projects <span class="text-gray-500">⌘3</span></div>
-      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white text-xl shadow-lg" data-target="projects"><i class="fa-solid fa-code"></i></button>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Projects <span class="text-white/50">⌘3</span></div>
+      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center text-white text-xl" data-target="projects"><i class="fa-solid fa-code"></i></button>
     </div>
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-gray-700">Skills <span class="text-gray-500">⌘4</span></div>
-      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center text-white text-xl shadow-lg" data-target="skills"><i class="fa-solid fa-bolt"></i></button>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Skills <span class="text-white/50">⌘4</span></div>
+      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center text-white text-xl" data-target="skills"><i class="fa-solid fa-bolt"></i></button>
     </div>
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-gray-700">Education <span class="text-gray-500">⌘5</span></div>
-      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center text-white text-xl shadow-lg" data-target="education"><i class="fa-solid fa-graduation-cap"></i></button>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Education <span class="text-white/50">⌘5</span></div>
+      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center text-white text-xl" data-target="education"><i class="fa-solid fa-graduation-cap"></i></button>
     </div>
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-gray-700">Contact <span class="text-gray-500">⌘6</span></div>
-      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white text-xl shadow-lg" data-target="contact"><i class="fa-solid fa-envelope"></i></button>
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Contact <span class="text-white/50">⌘6</span></div>
+      <button class="dock-icon active relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center text-white text-xl" data-target="contact"><i class="fa-solid fa-envelope"></i></button>
     </div>
-    <div class="w-px h-10 bg-gray-600/50 self-center mx-1"></div>
+    <div class="w-px h-10 bg-white/20 self-center mx-1"></div>
     <div class="relative group flex flex-col items-center">
-      <div class="absolute -top-9 bg-gray-800 text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-gray-700">Toggle <span class="text-gray-500">⌘T</span></div>
-      <button id="dock-ui-toggle" class="dock-icon relative interactive w-12 h-12 rounded-xl bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center text-white text-xl shadow-lg border border-white/10">
+      <div class="absolute -top-9 bg-gray-800/90 backdrop-blur-md text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition pointer-events-none whitespace-nowrap border border-white/10 shadow-lg">Toggle <span class="text-white/50">⌘T</span></div>
+      <button id="dock-ui-toggle" class="dock-icon relative interactive w-12 h-12 rounded-xl bg-white/10 border border-white/10 flex items-center justify-center text-white text-xl shadow-lg">
         <i class="fa-solid fa-toggle-on"></i>
       </button>
     </div>
   </div>
 </main>
 
-<!-- ======== MOBILE UI ======== -->
-<div id="mobile-ui">
-  <div style="background:rgba(20,21,23,0.95);border-bottom:1px solid #2E3036;padding:14px 16px;display:flex;align-items:center;gap:10px">
-    <span style="font-size:20px"></span>
-    <span style="font-family:Inter;font-weight:700;color:#fff;font-size:16px">Aadarsh Verma</span>
-    <span style="font-family:Inter;font-size:12px;color:#A855F7;margin-left:4px">@ SAP Labs</span>
+<!-- ======== MOBILE IOS UI ======== -->
+<div id="mobile-ui" class="bg-cover bg-center h-full relative overflow-hidden">
+  <!-- iOS Status Bar -->
+  <div class="flex justify-between items-center px-6 py-2 text-white text-xs font-sans font-semibold pt-4">
+    <span id="ios-clock">9:41</span>
+    <div class="flex gap-1.5 items-center"><i class="fa-solid fa-signal"></i> <i class="fa-solid fa-wifi"></i> <i class="fa-solid fa-battery-full text-sm"></i></div>
   </div>
-  <div style="flex:1;overflow:hidden;display:flex;flex-direction:column">
-    <div id="mob-about" class="mob-tab-content active">
-      <div class="mob-card" style="text-align:center;padding:24px">
-        <img src="https://ui-avatars.com/api/?name=Aadarsh+Verma&background=6D28D9&color=fff&size=96&bold=true" style="width:72px;height:72px;border-radius:50%;border:3px solid #2E3036;margin:0 auto 12px">
-        <div style="font-family:Inter;font-size:18px;font-weight:700;color:#fff">Aadarsh Verma</div>
-        <div style="font-family:Inter;font-size:13px;color:#A855F7;margin:4px 0">Software Engineer · SAP Labs AI Core</div>
-        <div style="font-family:Inter;font-size:12px;color:#6B7280;margin-bottom:16px">Bengaluru, India</div>
-        <div style="display:flex;gap:10px;justify-content:center">
-          <a href="https://github.com/CodeAadarsh" target="_blank" style="background:#ffffff15;color:#fff;padding:8px 16px;border-radius:8px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-brands fa-github mr-1"></i>GitHub</a>
-          <a href="https://linkedin.com/in/Ivadarsh" target="_blank" style="background:#1d4ed820;color:#60a5fa;padding:8px 16px;border-radius:8px;font-family:Inter;font-size:13px;text-decoration:none;border:1px solid #1d4ed840"><i class="fa-brands fa-linkedin mr-1"></i>LinkedIn</a>
-        </div>
+  
+  <!-- Home Screen Grid -->
+  <div class="flex-1 px-6 pt-8 flex flex-wrap gap-x-6 gap-y-8 content-start justify-center">
+    <div class="flex flex-col items-center gap-1.5 w-[60px]" onclick="openIOSApp('mob-about', 'About')">
+      <div class="w-[60px] h-[60px] bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center ios-icon"><i class="fa-solid fa-user text-white text-2xl"></i></div>
+      <span class="text-white text-[11px] font-sans font-medium">About</span>
+    </div>
+    <div class="flex flex-col items-center gap-1.5 w-[60px]" onclick="openIOSApp('mob-experience', 'Experience')">
+      <div class="w-[60px] h-[60px] bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center ios-icon"><i class="fa-solid fa-briefcase text-white text-2xl"></i></div>
+      <span class="text-white text-[11px] font-sans font-medium">Experience</span>
+    </div>
+    <div class="flex flex-col items-center gap-1.5 w-[60px]" onclick="openIOSApp('mob-projects', 'Projects')">
+      <div class="w-[60px] h-[60px] bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center ios-icon"><i class="fa-solid fa-code text-white text-2xl"></i></div>
+      <span class="text-white text-[11px] font-sans font-medium">Projects</span>
+    </div>
+    <div class="flex flex-col items-center gap-1.5 w-[60px]" onclick="openIOSApp('mob-skills', 'Skills')">
+      <div class="w-[60px] h-[60px] bg-gradient-to-br from-yellow-500 to-orange-600 flex items-center justify-center ios-icon"><i class="fa-solid fa-bolt text-white text-2xl"></i></div>
+      <span class="text-white text-[11px] font-sans font-medium">Skills</span>
+    </div>
+    <div class="flex flex-col items-center gap-1.5 w-[60px]" onclick="openIOSApp('mob-edu', 'Education')">
+      <div class="w-[60px] h-[60px] bg-gradient-to-br from-teal-500 to-cyan-600 flex items-center justify-center ios-icon"><i class="fa-solid fa-graduation-cap text-white text-2xl"></i></div>
+      <span class="text-white text-[11px] font-sans font-medium">Education</span>
+    </div>
+  </div>
+
+  <!-- iOS Dock -->
+  <div class="mx-4 mb-6 h-[86px] bg-white/10 backdrop-blur-2xl rounded-3xl border border-white/10 flex items-center justify-around px-2">
+    <div class="w-[60px] h-[60px] bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center shadow-lg ios-icon" onclick="openIOSApp('mob-contact', 'Contact')"><i class="fa-solid fa-envelope text-white text-2xl"></i></div>
+    <div class="w-[60px] h-[60px] bg-white/20 flex items-center justify-center shadow-lg ios-icon" onclick="toggleUIMode()"><i class="fa-solid fa-wand-magic-sparkles text-yellow-400 text-2xl"></i></div>
+  </div>
+
+  <!-- iOS App View Overlay -->
+  <div id="ios-app-view" class="absolute inset-0 z-50 bg-[#0A0A0C] flex flex-col transition-transform duration-300 translate-y-full">
+    <div class="h-14 flex items-center justify-between px-4 border-b border-gray-800 bg-black/50 backdrop-blur pb-2 pt-4">
+      <button onclick="closeIOSApp()" class="text-blue-500 font-sans text-[15px] flex items-center gap-1"><i class="fa-solid fa-chevron-left"></i> Back</button>
+      <span id="ios-app-title" class="text-white font-semibold font-sans text-[15px]">App</span>
+      <span class="w-[50px]"></span>
+    </div>
+    <div id="ios-app-content" class="flex-1 overflow-y-auto ios-app-content-wrapper">
+      <!-- Injected -->
+    </div>
+  </div>
+
+  <!-- Hidden Content Store for Mobile -->
+  <div id="mob-content-store" class="hidden">
+    <div id="mob-about" class="mob-card" style="text-align:center;padding:24px">
+      <img src="https://ui-avatars.com/api/?name=Aadarsh+Verma&background=6D28D9&color=fff&size=96&bold=true" style="width:72px;height:72px;border-radius:50%;border:3px solid #2E3036;margin:0 auto 12px">
+      <div style="font-family:Inter;font-size:18px;font-weight:700;color:#fff">Aadarsh Verma</div>
+      <div style="font-family:Inter;font-size:13px;color:#A855F7;margin:4px 0">Software Engineer · SAP Labs AI Core</div>
+      <div style="font-family:Inter;font-size:12px;color:rgba(255,255,255,0.6);margin-bottom:16px">Bengaluru, India</div>
+      <div style="display:flex;gap:10px;justify-content:center;margin-bottom:16px">
+        <a href="https://github.com/CodeAadarsh" target="_blank" style="background:rgba(255,255,255,0.1);color:#fff;padding:8px 16px;border-radius:8px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-brands fa-github mr-1"></i>GitHub</a>
+        <a href="https://linkedin.com/in/Ivadarsh" target="_blank" style="background:rgba(59,130,246,0.2);color:#60a5fa;padding:8px 16px;border-radius:8px;font-family:Inter;font-size:13px;text-decoration:none;border:1px solid rgba(59,130,246,0.3)"><i class="fa-brands fa-linkedin mr-1"></i>LinkedIn</a>
       </div>
-      <div class="mob-card"><h3>About</h3><p>Building resilient AI-powered systems at scale. Specializing in observability, distributed systems, and platform engineering.</p></div>
+      <p style="font-family:Inter;font-size:13px;color:rgba(255,255,255,0.7);line-height:1.5;text-align:left;">Building resilient AI-powered systems at scale. Specializing in observability, distributed systems, and platform engineering.</p>
     </div>
-    <div id="mob-experience" class="mob-tab-content">
-      <div class="mob-card"><h3>SAP AI Core · Software Engineer</h3><p style="color:#A855F7;font-size:11px;margin-bottom:8px">June 2025 – Present</p><p>Built and productionized AI-powered Log Intelligence system using LGTM stack, K8s, Docker, and LLMs. Processes 100GB+ logs daily across 50+ deployments.</p></div>
-      <div class="mob-card"><h3>SAP Industry Product Eng · Software Engineer</h3><p style="color:#60a5fa;font-size:11px;margin-bottom:8px">Sep 2024 – May 2025</p><p>Designed cloud-native SAP BTP extensions using CAP and UI5 across 50+ customer landscapes. Built scalable VMS POC handling 10,000+ daily events.</p></div>
-      <div class="mob-card"><h3>Okie Dokie Solutions · React Native Dev Intern</h3><p style="color:#2dd4bf;font-size:11px;margin-bottom:8px">May 2023 – Nov 2023</p><p>Built magazine e-commerce portal serving 15,000+ MAU. Added features to live app with 10,000+ downloads.</p></div>
+    
+    <div id="mob-experience">
+      <div class="mob-card"><h3>SAP AI Core · Software Engineer</h3><p style="color:#A855F7;font-size:11px;margin-bottom:8px">Jun 2025 – Present</p><p>Production AI Log Intelligence on LGTM stack, K8s observability, OpenTelemetry instrumentation across distributed microservices at enterprise scale.</p></div>
+      <div class="mob-card"><h3>SAP Industry Product Eng · Software Engineer</h3><p style="color:#60a5fa;font-size:11px;margin-bottom:8px">Sep 2024 – May 2025</p><p>Cloud-native SAP BTP extensions using CAP framework and UI5. Scalable Dockerized VMS simulator for automotive event generation.</p></div>
     </div>
-    <div id="mob-projects" class="mob-tab-content">
-      <div class="mob-card"><h3>AI Log Analyzer</h3><p>Engineered AI-powered log analysis platform using Node.js, LGTM stack, and LLM APIs to parse 1GB+ logs and detect anomalies across K8s pods.</p></div>
-      <div class="mob-card"><h3>Scalable VMS Simulator</h3><p>Developed distributed automotive API simulator using Docker and Kubernetes, generating 10K+ events/day with 99.9% uptime.</p></div>
-      <div class="mob-card"><h3>React Native ERP App</h3><p>Built full-stack cross-platform ERP system with React Native, Node.js backend, and CI/CD via GitHub Actions. Architected RESTful APIs handling 5K+ users.</p></div>
+    
+    <div id="mob-projects">
+      <div class="mob-card"><h3>AI Log Analyzer</h3><p>AI-powered log parsing & anomaly detection using full LGTM observability stack on Kubernetes. From POC to production at SAP.</p></div>
+      <div class="mob-card"><h3>Scalable VMS Simulator</h3><p>Distributed automotive API simulator using Docker and Kubernetes with multi-pod orchestration for high-volume event generation.</p></div>
+      <div class="mob-card"><h3>React Native ERP App</h3><p>Full-stack enterprise mobile application with React Native, Node.js backend, and CI/CD via GitHub Actions.</p></div>
     </div>
-    <div id="mob-skills" class="mob-tab-content">
+    
+    <div id="mob-skills">
       <div class="mob-card"><h3>Languages</h3><p>Java · Python · C++ · JavaScript</p></div>
       <div class="mob-card"><h3>DevOps & Cloud</h3><p>Docker · Kubernetes · Cloud Foundry · Linux · Git · GitHub Actions</p></div>
-      <div class="mob-card"><h3>Observability</h3><p>LGTM Stack (Loki, Grafana, Tempo, Mimir) · Dynatrace</p></div>
-      <div class="mob-card"><h3>Backend</h3><p>Node.js · Express.js · Spring Boot · CAP</p></div>
-      <div class="mob-card"><h3>Databases</h3><p>PostgreSQL · MySQL · MongoDB</p></div>
+      <div class="mob-card"><h3>Observability</h3><p>LGTM Stack (Loki · Grafana · Tempo · Mimir) · OpenTelemetry · Dynatrace</p></div>
+      <div class="mob-card"><h3>Backend</h3><p>Node.js · Express · Spring Boot · SAP CAP · REST APIs</p></div>
     </div>
-    <div id="mob-edu" class="mob-tab-content">
-      <div class="mob-card"><h3>M.Tech Software Engineering</h3><p style="color:#2dd4bf;font-size:11px;margin-bottom:8px">Birla Institute of Technology, Pilani · August 2024 – Present</p><p>In progress.</p></div>
-      <div class="mob-card"><h3>BCA, Computer Science</h3><p style="color:#60a5fa;font-size:11px;margin-bottom:8px">Amity University Jaipur · July 2021 – July 2024</p><p>Coursework: Operating Systems, Object Oriented Programming, Relational Database Management Systems, Computer Networks, Data Structures and Algorithms. CGPA: 8.47</p></div>
+    
+    <div id="mob-edu">
+      <div class="mob-card"><h3>M.Tech Software Engineering</h3><p style="color:#2dd4bf;font-size:11px;margin-bottom:8px">BITS Pilani WILP · 2024–2028</p><p>Work-Integrated Program. Applied Machine Learning, Computer Networks. ID: 2024sl70013</p></div>
+      <div class="mob-card"><h3>BCA</h3><p style="color:#60a5fa;font-size:11px;margin-bottom:8px">Amity University Jaipur · 2020–2023</p><p>OOP, DBMS, OS, Data Structures, Networking. CGPA: 8.47</p></div>
     </div>
-    <div id="mob-contact" class="mob-tab-content">
+    
+    <div id="mob-contact">
       <div class="mob-card" style="text-align:center">
         <h3 style="margin-bottom:16px">Get In Touch</h3>
         <div style="display:flex;flex-direction:column;gap:10px">
-          <a href="mailto:aadarsh24lv@gmail.com" style="background:#ec489915;border:1px solid #ec489930;color:#f9a8d4;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-solid fa-envelope mr-2"></i>aadarsh24lv@gmail.com</a>
-          <a href="tel:+919520457941" style="background:#10b98115;border:1px solid #10b98130;color:#34d399;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-solid fa-phone mr-2"></i>+91 9520457941</a>
-          <a href="https://github.com/CodeAadarsh" target="_blank" style="background:#ffffff10;border:1px solid #ffffff20;color:#e5e7eb;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-brands fa-github mr-2"></i>github.com/CodeAadarsh</a>
-          <a href="https://linkedin.com/in/Ivadarsh" target="_blank" style="background:#1d4ed820;border:1px solid #1d4ed840;color:#60a5fa;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-brands fa-linkedin mr-2"></i>linkedin.com/in/Ivadarsh</a>
+          <a href="mailto:aadarsh24lv@gmail.com" style="background:rgba(236,72,153,0.1);border:1px solid rgba(236,72,153,0.2);color:#f9a8d4;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-solid fa-envelope mr-2"></i>aadarsh24lv@gmail.com</a>
+          <a href="tel:+919520457941" style="background:rgba(16,185,129,0.1);border:1px solid rgba(16,185,129,0.2);color:#34d399;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-solid fa-phone mr-2"></i>+91 9520457941</a>
+          <a href="https://github.com/CodeAadarsh" target="_blank" style="background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#e5e7eb;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-brands fa-github mr-2"></i>github.com/CodeAadarsh</a>
+          <a href="https://linkedin.com/in/Ivadarsh" target="_blank" style="background:rgba(29,78,216,0.2);border:1px solid rgba(29,78,216,0.3);color:#60a5fa;padding:12px;border-radius:10px;font-family:Inter;font-size:13px;text-decoration:none"><i class="fa-brands fa-linkedin mr-2"></i>linkedin.com/in/Ivadarsh</a>
         </div>
       </div>
     </div>
-  </div>
-  <div id="mobile-tabs">
-    <button class="mob-tab active" data-mob="about"><i class="fa-solid fa-user text-base"></i><span>About</span></button>
-    <button class="mob-tab" data-mob="experience"><i class="fa-solid fa-briefcase text-base"></i><span>Work</span></button>
-    <button class="mob-tab" data-mob="projects"><i class="fa-solid fa-code text-base"></i><span>Projects</span></button>
-    <button class="mob-tab" data-mob="skills"><i class="fa-solid fa-bolt text-base"></i><span>Skills</span></button>
-    <button class="mob-tab" data-mob="edu"><i class="fa-solid fa-graduation-cap text-base"></i><span>Edu</span></button>
-    <button class="mob-tab" data-mob="contact"><i class="fa-solid fa-envelope text-base"></i><span>Contact</span></button>
   </div>
 </div>
 
@@ -642,7 +758,7 @@ async function runBoot() {
   const bar = document.getElementById('boot-bar-fill');
   const status = document.getElementById('boot-status');
   const screen = document.getElementById('boot-screen');
-  const statuses = ['Initializing kernel...','Loading modules...','Mounting filesystem...','Starting services...','Launching AadarshOS...'];
+  const statuses = ['Initializing kernel...','Loading modules...','Mounting filesystem...','Starting services...','Launching Portfolio...'];
   
   setTimeout(() => { if(bar) bar.style.width = '100%'; }, 100);
   for (let i = 0; i < statuses.length; i++) {
@@ -655,15 +771,62 @@ async function runBoot() {
   if(screen) screen.style.display = 'none';
 }
 
-// ====== CLOCK ======
+// ====== CLOCK & iOS CLOCK ======
 function updateClock() {
   const el = document.getElementById('clock');
-  if (!el) return;
+  const iosEl = document.getElementById('ios-clock');
   const now = new Date();
-  el.textContent = now.toLocaleDateString('en-US', { weekday:'short', hour:'numeric', minute:'2-digit' }).replace(',','');
+  if (el) el.textContent = now.toLocaleDateString('en-US', { weekday:'short', hour:'numeric', minute:'2-digit' }).replace(',','');
+  if (iosEl) iosEl.textContent = now.toLocaleTimeString('en-US', { hour:'numeric', minute:'2-digit', hour12:true });
 }
 setInterval(updateClock, 1000);
 updateClock();
+
+// ====== CALENDAR WIDGET ======
+let currentCalDate = new Date();
+function renderCalendar() {
+    const monthYear = document.getElementById('cal-month-year');
+    const daysContainer = document.getElementById('cal-days');
+    if(!monthYear || !daysContainer) return;
+    
+    const year = currentCalDate.getFullYear();
+    const month = currentCalDate.getMonth();
+    
+    monthYear.textContent = new Intl.DateTimeFormat('en-US', { month: 'long', year: 'numeric' }).format(currentCalDate);
+    
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    
+    daysContainer.innerHTML = '';
+    for (let i = 0; i < firstDay; i++) {
+        daysContainer.innerHTML += `<div></div>`;
+    }
+    
+    const today = new Date();
+    for (let i = 1; i <= daysInMonth; i++) {
+        const isToday = i === today.getDate() && month === today.getMonth() && year === today.getFullYear();
+        const todayClass = isToday ? 'bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center mx-auto shadow-sm' : 'w-7 h-7 flex items-center justify-center mx-auto hover:bg-white/20 rounded-full cursor-pointer transition';
+        daysContainer.innerHTML += `<div class="${todayClass}">${i}</div>`;
+    }
+}
+function changeMonth(dir) {
+    currentCalDate.setMonth(currentCalDate.getMonth() + dir);
+    renderCalendar();
+}
+
+const clockBtn = document.getElementById('clock-btn');
+if (clockBtn) {
+    clockBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cal = document.getElementById('calendar-widget');
+        const cc = document.getElementById('control-center');
+        if (cc && cc.classList.contains('open')) cc.classList.remove('open');
+        if (cal) {
+            cal.classList.toggle('open');
+            if (cal.classList.contains('open')) renderCalendar();
+        }
+    });
+}
 
 // ====== CURSOR ======
 const cursor = document.getElementById('cursor-dot');
@@ -716,16 +879,72 @@ async function animateTerminal(winEl, delay) {
 function toggleUIMode() {
   isUIMode = !isUIMode;
   const modeText = document.getElementById('mode-text');
+  const ccModeText = document.getElementById('cc-mode-text');
   if (modeText) modeText.textContent = isUIMode ? 'Terminal Mode' : 'UI Mode';
+  if (ccModeText) ccModeText.textContent = isUIMode ? 'Terminal Mode' : 'UI Mode';
   document.querySelectorAll('.window').forEach(win => {
     const tv = win.querySelector('.view-terminal');
     const uv = win.querySelector('.view-ui');
     if (isUIMode) { tv && tv.classList.add('hidden-view'); uv && uv.classList.remove('hidden-view'); }
     else { uv && uv.classList.add('hidden-view'); tv && tv.classList.remove('hidden-view'); }
   });
+  const cc = document.getElementById('control-center');
+  if(cc && cc.classList.contains('open')) cc.classList.remove('open');
 }
-document.getElementById('ui-mode-toggle').addEventListener('click', toggleUIMode);
-document.getElementById('dock-ui-toggle').addEventListener('click', toggleUIMode);
+
+const uiToggleBtn = document.getElementById('ui-mode-toggle');
+if (uiToggleBtn) uiToggleBtn.addEventListener('click', toggleUIMode);
+const dockUiToggleBtn = document.getElementById('dock-ui-toggle');
+if (dockUiToggleBtn) dockUiToggleBtn.addEventListener('click', toggleUIMode);
+
+
+// ====== ORGANIZE MODE (CASCADE) ======
+function cascadeWindows() {
+  const wins = Array.from(document.querySelectorAll('.window:not(.minimized)'));
+  let startX = 40;
+  let startY = 40;
+  wins.forEach((w, i) => {
+    w.style.transition = 'opacity 0.2s, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), left 0.4s ease, top 0.4s ease';
+    w.style.transform = 'none';
+    if(w.classList.contains('maximized')){
+      w.classList.remove('maximized');
+      w.style.width = w.dataset.ow || '500px';
+      w.style.height = w.dataset.oh || '400px';
+      w.style.borderRadius = '12px';
+    }
+    w.style.left = `${startX + (i * 45)}px`;
+    w.style.top = `${startY + (i * 45)}px`;
+    bringToFront(w);
+    setTimeout(() => { w.style.transition = 'opacity 0.2s, transform 0.3s cubic-bezier(0.16, 1, 0.3, 1)'; }, 400);
+  });
+  const cc = document.getElementById('control-center');
+  if(cc) cc.classList.remove('open');
+}
+
+// ====== CONTROL CENTER ======
+const ccBtn = document.getElementById('cc-btn');
+if (ccBtn) {
+    ccBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const cc = document.getElementById('control-center');
+        const cal = document.getElementById('calendar-widget');
+        if (cal && cal.classList.contains('open')) cal.classList.remove('open');
+        if (cc) cc.classList.toggle('open');
+    });
+}
+document.addEventListener('click', (e) => {
+    const cc = document.getElementById('control-center');
+    const ccBtn = document.getElementById('cc-btn');
+    const cal = document.getElementById('calendar-widget');
+    const clock = document.getElementById('clock-btn');
+    
+    if(cc && ccBtn && cc.classList.contains('open') && !cc.contains(e.target) && !ccBtn.contains(e.target)) {
+        cc.classList.remove('open');
+    }
+    if(cal && clock && cal.classList.contains('open') && !cal.contains(e.target) && !clock.contains(e.target)) {
+        cal.classList.remove('open');
+    }
+});
 
 // ====== WINDOW MANAGEMENT ======
 function bringToFront(win) {
@@ -773,7 +992,7 @@ function makeDraggable(win, header) {
     bringToFront(win);
     const rect = win.getBoundingClientRect();
     win.style.left = rect.left + 'px'; win.style.top = rect.top + 'px';
-    win.style.transition = 'opacity .2s';
+    win.style.transition = 'opacity .2s'; // Remove layout transitions during drag
     document.onmouseup = () => {
       document.onmouseup = null; document.onmousemove = null;
       win.style.transition = 'opacity .2s, transform .3s cubic-bezier(.16,1,.3,1)';
@@ -796,25 +1015,28 @@ document.querySelectorAll('.window').forEach(win => {
   if (header) makeDraggable(win, header);
   const id = win.getAttribute('data-id');
   
-  win.querySelector('.close-btn').addEventListener('click', () => {
+  const closeBtn = win.querySelector('.close-btn');
+  if(closeBtn) closeBtn.addEventListener('click', () => {
     win.classList.add('minimized');
     const icon = document.querySelector(`.dock-icon[data-target="${id}"]`);
     if(icon) icon.classList.remove('active');
   });
-  win.querySelector('.min-btn').addEventListener('click', () => {
+  const minBtn = win.querySelector('.min-btn');
+  if(minBtn) minBtn.addEventListener('click', () => {
     win.classList.add('minimized');
     const icon = document.querySelector(`.dock-icon[data-target="${id}"]`);
     if(icon) icon.classList.remove('active');
   });
-  win.querySelector('.max-btn').addEventListener('click', () => {
+  const maxBtn = win.querySelector('.max-btn');
+  if(maxBtn) maxBtn.addEventListener('click', () => {
     if (win.classList.contains('maximized')) {
       win.classList.remove('maximized');
       win.style.width = win.dataset.ow; win.style.height = win.dataset.oh;
       win.style.left = win.dataset.ol; win.style.top = win.dataset.ot;
       win.style.borderRadius = '12px';
     } else {
-      win.dataset.ow = win.getBoundingClientRect().width + 'px';
-      win.dataset.oh = win.getBoundingClientRect().height + 'px';
+      win.dataset.ow = win.style.width || win.getBoundingClientRect().width + 'px';
+      win.dataset.oh = win.style.height || win.getBoundingClientRect().height + 'px';
       win.dataset.ol = win.style.left; win.dataset.ot = win.style.top;
       win.classList.add('maximized');
       win.style.width = '100vw'; win.style.height = 'calc(100vh - 28px)';
@@ -858,23 +1080,24 @@ let spotIdx = 0;
 function openSpotlight() {
   const overlay = document.getElementById('spotlight-overlay');
   const input = document.getElementById('spotlight-input');
-  overlay.classList.add('open');
-  input.value = '';
+  if(overlay) overlay.classList.add('open');
+  if(input) { input.value = ''; input.focus(); }
   renderSpotlightResults('');
-  setTimeout(() => input.focus(), 50);
 }
 function closeSpotlight() {
-  document.getElementById('spotlight-overlay').classList.remove('open');
+  const overlay = document.getElementById('spotlight-overlay');
+  if(overlay) overlay.classList.remove('open');
 }
 function renderSpotlightResults(q) {
   const res = document.getElementById('spotlight-results');
+  if(!res) return;
   const items = q ? spotlightData.filter(d => `${d.title} ${d.subtitle}`.toLowerCase().includes(q.toLowerCase())) : spotlightData;
   spotIdx = 0;
   res.innerHTML = items.length ? items.map((d, i) => `
     <div class="spot-item ${i===0?'selected':''}" data-id="${d.id}">
       <div class="spot-icon bg-gradient-to-br ${d.color} text-white"><i class="fa-solid ${d.icon}"></i></div>
-      <div><div style="color:#fff;font-size:14px;font-family:Inter;font-weight:500">${d.title}</div><div style="color:#6B7280;font-size:12px;font-family:Inter">${d.subtitle}</div></div>
-    </div>`) .join('') : '<div style="padding:20px;text-align:center;color:#4B5563;font-family:Inter;font-size:13px">No results</div>';
+      <div><div style="color:#fff;font-size:14px;font-family:Inter;font-weight:500">${d.title}</div><div style="color:rgba(255,255,255,0.5);font-size:12px;font-family:Inter">${d.subtitle}</div></div>
+    </div>`) .join('') : '<div style="padding:20px;text-align:center;color:rgba(255,255,255,0.5);font-family:Inter;font-size:13px">No results</div>';
   res.querySelectorAll('.spot-item').forEach(item => {
     item.addEventListener('click', () => { openWindowById(item.dataset.id); closeSpotlight(); });
   });
@@ -886,16 +1109,26 @@ function openWindowById(id) {
   bringToFront(win);
   if (!animatedWindows.has(id)) animateTerminal(win, 0);
 }
-document.getElementById('spotlight-input').addEventListener('input', e => renderSpotlightResults(e.target.value));
-document.getElementById('spotlight-input').addEventListener('keydown', e => {
-  const items = document.querySelectorAll('.spot-item');
-  if (e.key === 'ArrowDown') { spotIdx = Math.min(spotIdx+1, items.length-1); items.forEach((el,i) => el.classList.toggle('selected', i===spotIdx)); e.preventDefault(); }
-  else if (e.key === 'ArrowUp') { spotIdx = Math.max(spotIdx-1, 0); items.forEach((el,i) => el.classList.toggle('selected', i===spotIdx)); e.preventDefault(); }
-  else if (e.key === 'Enter') { const sel = items[spotIdx]; if(sel) { openWindowById(sel.dataset.id); closeSpotlight(); } }
-  else if (e.key === 'Escape') closeSpotlight();
-});
-document.getElementById('spotlight-overlay').addEventListener('click', e => { if(e.target === e.currentTarget) closeSpotlight(); });
-document.getElementById('spotlight-btn').addEventListener('click', openSpotlight);
+
+const spotlightInp = document.getElementById('spotlight-input');
+if(spotlightInp) {
+    spotlightInp.addEventListener('input', e => renderSpotlightResults(e.target.value));
+    spotlightInp.addEventListener('keydown', e => {
+      const items = document.querySelectorAll('.spot-item');
+      if (e.key === 'ArrowDown') { spotIdx = Math.min(spotIdx+1, items.length-1); items.forEach((el,i) => el.classList.toggle('selected', i===spotIdx)); e.preventDefault(); }
+      else if (e.key === 'ArrowUp') { spotIdx = Math.max(spotIdx-1, 0); items.forEach((el,i) => el.classList.toggle('selected', i===spotIdx)); e.preventDefault(); }
+      else if (e.key === 'Enter') { const sel = items[spotIdx]; if(sel) { openWindowById(sel.dataset.id); closeSpotlight(); } }
+      else if (e.key === 'Escape') closeSpotlight();
+    });
+}
+const spotlightOverlay = document.getElementById('spotlight-overlay');
+if(spotlightOverlay) {
+    spotlightOverlay.addEventListener('click', e => { if(e.target === e.currentTarget) closeSpotlight(); });
+}
+const spotlightBtn = document.getElementById('spotlight-btn');
+if(spotlightBtn) {
+    spotlightBtn.addEventListener('click', openSpotlight);
+}
 
 // ====== KEYBOARD SHORTCUTS ======
 const winMap = ['about','experience','projects','skills','education','contact'];
@@ -922,24 +1155,24 @@ async function fetchGitHub() {
     const uiGrid = document.getElementById('gh-ui-grid');
     if (termList && filtered.length) {
       termList.innerHTML = filtered.map(r => `
-        <div class="hover:bg-warp-highlight p-2 rounded transition interactive">
+        <div class="hover:bg-white/5 p-2 rounded transition interactive">
           <div class="text-warp-path font-bold mb-1"><i class="fa-regular fa-folder-open mr-1"></i> ${r.name}/
             ${r.stargazers_count > 0 ? `<span class="text-yellow-400 text-xs ml-2">★${r.stargazers_count}</span>` : ''}
           </div>
-          <div class="pl-5 border-l border-gray-700 ml-1 py-1 text-gray-400">${r.description || 'A project by Aadarsh Verma'}${r.language ? ` <span class="text-blue-400 text-xs">[${r.language}]</span>` : ''}</div>
+          <div class="pl-5 border-l border-white/10 ml-1 py-1 text-white/70">${r.description || 'A project by Aadarsh Verma'}${r.language ? ` <span class="text-blue-400 text-xs">[${r.language}]</span>` : ''}</div>
         </div>`).join('');
     }
     if (uiGrid && filtered.length) {
       uiGrid.innerHTML = filtered.slice(0,3).map(r => `
-        <div class="bg-gradient-to-br from-gray-800/40 to-gray-900/40 p-4 rounded-xl border border-gray-700/50">
+        <div class="bg-white/5 p-4 rounded-xl border border-white/10 shadow-lg transition hover:border-blue-500/50">
           <div class="flex items-start justify-between mb-2">
-            <h3 class="text-sm font-bold text-white"><i class="fa-brands fa-github text-gray-400 mr-2"></i>${r.name}</h3>
+            <h3 class="text-sm font-bold text-white"><i class="fa-brands fa-github text-white/50 mr-2"></i>${r.name}</h3>
             ${r.stargazers_count > 0 ? `<span class="text-yellow-400 text-xs">★ ${r.stargazers_count}</span>` : ''}
           </div>
-          <p class="text-gray-400 text-sm mb-3 leading-relaxed">${r.description || 'A project by Aadarsh Verma'}</p>
+          <p class="text-white/70 text-sm mb-3 leading-relaxed">${r.description || 'A project by Aadarsh Verma'}</p>
           <div class="flex gap-2 flex-wrap">
-            ${r.language ? `<span class="bg-gray-800 text-gray-300 px-2 py-0.5 rounded text-xs">${r.language}</span>` : ''}
-            <a href="${r.html_url}" target="_blank" class="bg-gray-800 text-blue-400 px-2 py-0.5 rounded text-xs interactive">View →</a>
+            ${r.language ? `<span class="bg-white/10 text-white/90 border border-white/10 px-2 py-0.5 rounded text-xs">${r.language}</span>` : ''}
+            <a href="${r.html_url}" target="_blank" class="bg-blue-500/20 text-blue-200 border border-blue-500/30 px-2 py-0.5 rounded text-xs interactive">View →</a>
           </div>
         </div>`).join('');
     }
@@ -964,7 +1197,7 @@ const easterCommands = {
   / _ | ___ __   / /__ ____ ___/ /  
  / __ |/ _ \`/ \\/  '_// __/// _  /   
 /_/ |_/\\_,_//_/\\_\\ /_/   \\___/   </span>
-<span class="text-blue-400">OS:</span> AadarshOS 2.0 — Bengaluru Ed.
+<span class="text-blue-400">OS:</span> Portfolio 2.0 — Sequoia Ed.
 <span class="text-blue-400">Shell:</span> zsh · <span class="text-blue-400">Editor:</span> VS Code
 <span class="text-blue-400">Languages:</span> Java · Python · C++ · JS
 <span class="text-blue-400">Stack:</span> Node.js · Docker · K8s · LGTM
@@ -1017,17 +1250,34 @@ function triggerHireEasterEgg() {
   }
 }
 
-// ====== MOBILE TABS ======
-document.querySelectorAll('.mob-tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    const target = tab.getAttribute('data-mob');
-    document.querySelectorAll('.mob-tab').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('.mob-tab-content').forEach(c => c.classList.remove('active'));
-    tab.classList.add('active');
-    const content = document.getElementById('mob-' + target);
-    if (content) content.classList.add('active');
-  });
-});
+// ====== IOS MOBILE APP ======
+function openIOSApp(id, title) {
+    const titleEl = document.getElementById('ios-app-title');
+    if(titleEl) titleEl.textContent = title;
+    const contentArea = document.getElementById('ios-app-content');
+    if(contentArea) {
+        contentArea.innerHTML = '';
+        const source = document.getElementById(id);
+        if(source) {
+            source.style.display = 'block';
+            contentArea.appendChild(source);
+        }
+    }
+    const view = document.getElementById('ios-app-view');
+    if(view) view.style.transform = 'translateY(0)';
+}
+function closeIOSApp() {
+    const view = document.getElementById('ios-app-view');
+    if(view) view.style.transform = 'translateY(100%)';
+    setTimeout(() => {
+        const contentArea = document.getElementById('ios-app-content');
+        if(contentArea && contentArea.firstElementChild) {
+            contentArea.firstElementChild.style.display = 'none';
+            const store = document.getElementById('mob-content-store');
+            if(store) store.appendChild(contentArea.firstElementChild);
+        }
+    }, 300);
+}
 
 // ====== SHORTCUT TOAST ======
 function showShortcutsToast() {
@@ -1078,7 +1328,9 @@ window.addEventListener('load', async () => {
   refreshInteractables();
   fetchGitHub();
   await runBoot();
-  await runIntro();
+  if(window.innerWidth > 768) {
+      await runIntro();
+  }
 });
 </script>
 </body>
